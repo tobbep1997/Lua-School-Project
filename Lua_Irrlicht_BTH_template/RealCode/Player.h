@@ -31,6 +31,10 @@ public:
 
 
 	static int move(lua_State * L);
+	static int setHealth(lua_State * L);
+
+	void pushPlayerHealth(lua_State * L);
+	static int getPlayerHealth(lua_State * l);
 
 private:
 

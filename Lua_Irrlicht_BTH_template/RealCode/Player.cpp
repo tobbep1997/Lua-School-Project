@@ -61,7 +61,9 @@ void Player::setAttack(int attack)
 
 void Player::move(double x, double y)
 {
-	shape.setPosition(x, y);
+	m_position.x += x;
+	m_position.y += y;
+	shape.setPosition(m_position);
 }
 
 int Player::move(lua_State * L)
@@ -71,7 +73,37 @@ int Player::move(lua_State * L)
 		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
 		p->move(lua_tonumber(L, -2), lua_tonumber(L, -1));
 	}
+	else
+	{
+		std::cout << "Error: Expected MovePlayer(double, double)" << std::endl;
+	}
 	return 0;
+}
+
+int Player::setHealth(lua_State * L)
+{
+	if (lua_isnumber(L, -1))
+	{
+		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->setHealth(lua_tointeger(L, -1));
+	}
+	else
+	{
+		std::cout << "Error: Expected PlayerSetHealth(int)" << std::endl;
+	}	
+	return 0;
+}
+
+void Player::pushPlayerHealth(lua_State * L)
+{
+	lua_pushinteger(L, m_health);
+}
+
+int Player::getPlayerHealth(lua_State * L)
+{
+	Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
+	p->pushPlayerHealth(L);
+	return 1;
 }
 
 void Player::pushLuaFunctions(lua_State * L)
@@ -79,6 +111,15 @@ void Player::pushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Player::move, 1);
 	lua_setglobal(L, "MovePlayer");
+	
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Player::getPlayerHealth, 1);
+	lua_setglobal(L, "getPlayerHealth");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Player::setHealth, 1);
+	lua_setglobal(L, "PlayerSetHealth");
+
 
 }
 
