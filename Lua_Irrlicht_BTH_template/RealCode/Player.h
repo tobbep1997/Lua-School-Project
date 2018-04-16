@@ -4,7 +4,7 @@
 class Player : public sf::Drawable
 {
 public:
-	Player();
+	Player(const int posX = 0, const int posY = 0);
 	~Player();
 	
 	void Update();
@@ -22,6 +22,7 @@ private:
 	
 	int m_health;
 	int m_attack;
+	sf::Vector2f m_position;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

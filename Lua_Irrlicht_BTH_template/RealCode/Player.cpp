@@ -1,12 +1,14 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(const int posX, const int posY)
 {
 	shape.setRadius(20.0f);
 	shape.setFillColor(sf::Color::Green);
+	shape.setPosition(posX, posY);
 
 	m_health = 100;
 	m_attack = 10;
+	m_position = sf::Vector2f(posX,posY);
 }
 
 

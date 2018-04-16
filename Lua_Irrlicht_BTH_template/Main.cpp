@@ -13,6 +13,7 @@
 #include <irrlicht.h>
 #include <SFML/Graphics.hpp>	
 #include "RealCode/Player.h"
+#include "RealCode/Enemy.h"
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -31,6 +32,7 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 	Player player;
+	Enemy enemy = Enemy(20,20);
 
 	int error = luaL_loadfile(L, "../Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
 
@@ -48,6 +50,7 @@ int main()
 
 		window.clear();
 		window.draw(player);
+		window.draw(enemy);
 		window.display();
 	}
 

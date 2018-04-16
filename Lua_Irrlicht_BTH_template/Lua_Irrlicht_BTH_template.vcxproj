@@ -149,9 +149,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RealCode\Enemy.cpp" />
     <ClCompile Include="RealCode\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RealCode\Enemy.h" />
     <ClInclude Include="RealCode\Player.h" />
   </ItemGroup>
   <ItemGroup>

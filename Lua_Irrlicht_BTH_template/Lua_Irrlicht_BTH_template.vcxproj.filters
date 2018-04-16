@@ -21,9 +21,15 @@
     <ClCompile Include="RealCode\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RealCode\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RealCode\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RealCode\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
