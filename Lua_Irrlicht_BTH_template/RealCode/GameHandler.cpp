@@ -11,7 +11,8 @@ GameHandler::~GameHandler()
 void GameHandler::Update(lua_State* L)
 {
 	_playerInputHandler(L);
-	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
+	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
+	
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
