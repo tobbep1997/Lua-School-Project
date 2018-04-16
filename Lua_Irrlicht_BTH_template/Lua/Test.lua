@@ -1,8 +1,16 @@
 
-MovePlayer(24, 25)
+
+if KeyBoardState == "A" then
+	MovePlayer(-1, 0)
+	end
+
+if KeyBoardState == "D" then
+	MovePlayer(1,0)
+	end
+
 
 
 PlayerHealth = getPlayerHealth()
-print(PlayerHealth)
+
 
 PlayerSetHealth(24555)

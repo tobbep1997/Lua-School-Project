@@ -51,7 +51,7 @@ int main()
 	while (window.isOpen())
 	{
 		int error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
-		std::cout << lua_gettop(L) << std::endl;
+		
 
 
 
