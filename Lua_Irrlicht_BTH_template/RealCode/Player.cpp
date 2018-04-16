@@ -1,12 +1,58 @@
 #include "Player.h"
 
-
-
 Player::Player()
 {
+	shape.setRadius(20.0f);
+	shape.setFillColor(sf::Color::Green);
+
+	m_health = 100;
+	m_attack = 10;
 }
 
 
 Player::~Player()
 {
 }
+
+void Player::Update()
+{
+}
+void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+
+	target.draw(shape);
+
+}
+
+void Player::DamagePlayer(int damage)
+{
+	m_health -= damage;
+}
+
+void Player::GivePlayerHP(int hp)
+{
+	m_health += hp;
+}
+
+
+int Player::getHealth() const
+{
+	return m_health;
+}
+
+void Player::setHealth(int health)
+{
+	m_health = health;
+}
+
+int Player::getAttack() const
+{
+	return m_attack;
+}
+
+void Player::setAttack(int attack)
+{
+	m_attack = attack;
+}
+
+

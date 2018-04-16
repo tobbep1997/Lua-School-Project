@@ -12,6 +12,7 @@
 #include "lua.hpp"
 #include <irrlicht.h>
 #include <SFML/Graphics.hpp>	
+#include "RealCode/Player.h"
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -28,9 +29,8 @@ int main()
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+	Player player;
 
 	int error = luaL_loadfile(L, "../Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
 
@@ -47,7 +47,7 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
+		window.draw(player);
 		window.display();
 	}
 
