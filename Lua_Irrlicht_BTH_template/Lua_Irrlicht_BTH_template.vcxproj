@@ -150,13 +150,16 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RealCode\Enemy.cpp" />
+    <ClCompile Include="RealCode\GameHandler.cpp" />
     <ClCompile Include="RealCode\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RealCode\Enemy.h" />
+    <ClInclude Include="RealCode\GameHandler.h" />
     <ClInclude Include="RealCode\Player.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Lua\Jocke.lua" />
     <None Include="Lua\Test.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

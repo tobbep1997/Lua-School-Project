@@ -14,6 +14,7 @@
 #include <SFML/Graphics.hpp>	
 #include "RealCode/Player.h"
 #include "RealCode/Enemy.h"
+#include "RealCode/GameHandler.h"
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -36,6 +37,9 @@ int main()
 	luaL_openlibs(L);
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+
+	GameHandler gameHandle;
+
 	Player player(L);
 	Enemy enemy = Enemy(20,20);
 	
@@ -53,7 +57,10 @@ int main()
 				window.close();
 		}
 
+		gameHandle.Update(L);
+
 		window.clear();
+		window.draw(gameHandle);
 		window.draw(player);
 		window.draw(enemy);
 		window.display();

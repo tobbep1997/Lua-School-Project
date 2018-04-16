@@ -24,6 +24,9 @@
     <ClCompile Include="RealCode\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RealCode\GameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RealCode\Player.h">
@@ -32,8 +35,12 @@
     <ClInclude Include="RealCode\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RealCode\GameHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Lua\Test.lua" />
+    <None Include="Lua\Jocke.lua" />
   </ItemGroup>
 </Project>
