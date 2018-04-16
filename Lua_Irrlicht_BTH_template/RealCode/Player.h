@@ -1,10 +1,21 @@
 #pragma once
+#ifdef _DEBUG
+#pragma comment(lib, "LuaLibd.lib")
+#else
+#pragma comment(lib, "Lualib.lib")
+#endif
+
+#include <lua.hpp>
+#include <Windows.h>
+#include <iostream>
+#include <thread>
+#include "lua.hpp"
 #include <SFML/Graphics.hpp>
 
 class Player : public sf::Drawable
 {
 public:
-	Player(const int posX = 0, const int posY = 0);
+	Player(lua_State * L, const int posX = 0, const int posY = 0);
 	~Player();
 	
 	void Update();
@@ -18,7 +29,13 @@ public:
 	int getAttack() const;
 	void setAttack(int attack);
 
+
+	static int move(lua_State * L);
+
 private:
+
+	void pushLuaFunctions(lua_State * L);
+	void move(double x, double y);
 	
 	int m_health;
 	int m_attack;
