@@ -32,6 +32,10 @@ int main()
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
+	int error = luaL_loadfile(L, "../Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
+
+	std::cout << error << std::endl;
+
 	std::thread conThread(ConsoleThread, L);
 	while (window.isOpen())
 	{
