@@ -32,6 +32,7 @@ int main()
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
+	std::thread conThread(ConsoleThread, L);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -46,8 +47,8 @@ int main()
 		window.display();
 	}
 
+	conThread.join();
 	/*
-	std::thread conThread(ConsoleThread, L);
 
 	irr::IrrlichtDevice* device = irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, true, 0);
 	if(!device)
@@ -71,7 +72,6 @@ int main()
 
 	device->drop();
 
-	conThread.join();
 	*/
 	return 0;
 }
