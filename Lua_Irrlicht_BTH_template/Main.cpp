@@ -11,6 +11,7 @@
 #include <thread>
 #include "lua.hpp"
 #include <irrlicht.h>
+#include <SFML/Graphics.hpp>	
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -27,7 +28,26 @@ int main()
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
-		std::thread conThread(ConsoleThread, L);
+	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::CircleShape shape(100.f);
+	shape.setFillColor(sf::Color::Green);
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+
+		window.clear();
+		window.draw(shape);
+		window.display();
+	}
+
+	/*
+	std::thread conThread(ConsoleThread, L);
 
 	irr::IrrlichtDevice* device = irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, true, 0);
 	if(!device)
@@ -52,5 +72,6 @@ int main()
 	device->drop();
 
 	conThread.join();
+	*/
 	return 0;
 }
