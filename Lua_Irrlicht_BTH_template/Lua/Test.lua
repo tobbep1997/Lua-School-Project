@@ -11,7 +11,7 @@ if KeyBoardState == "W" then
 end
 if KeyBoardState == "S" then
 	MovePlayer(0,1)
-end
+end 
 
 
 
