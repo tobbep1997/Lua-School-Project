@@ -1,15 +1,22 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "lua.hpp"
+#include "Player.h"
+#include "Enemy.h"
 class GameHandler : public sf::Drawable
 {
 public:
-	GameHandler();
+	GameHandler(lua_State * L = nullptr);
 	~GameHandler();
 
 	void Update(lua_State* L);
 
 private:
+
+
+	Player* player;
+	Enemy enemy;
+
 
 	void _playerInputHandler(lua_State* L);
 

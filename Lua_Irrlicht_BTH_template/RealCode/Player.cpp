@@ -13,6 +13,11 @@ Player::Player(lua_State * L, const int posX, const int posY)
 	pushLuaFunctions(L);
 }
 
+Player::Player()
+{
+	std::cout << "DONT USE THIS PEZSE\n";
+}
+
 
 Player::~Player()
 {

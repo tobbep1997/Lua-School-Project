@@ -1,11 +1,15 @@
 #include "GameHandler.h"
 
-GameHandler::GameHandler()
+GameHandler::GameHandler(lua_State* L)
 {
+	player = new Player(L);
+	enemy = Enemy();
 }
+	
 
 GameHandler::~GameHandler()
 {
+	delete player;
 }
 
 void GameHandler::Update(lua_State* L)
@@ -47,4 +51,6 @@ void GameHandler::_playerInputHandler(lua_State* L)
 
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	target.draw(*player);
+	target.draw(enemy);
 }

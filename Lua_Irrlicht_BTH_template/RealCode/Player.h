@@ -16,6 +16,7 @@ class Player : public sf::Drawable
 {
 public:
 	Player(lua_State * L, const int posX = 0, const int posY = 0);
+	Player();
 	~Player();
 	
 	void Update();

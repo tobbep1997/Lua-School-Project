@@ -38,10 +38,8 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
-	GameHandler gameHandle;
+	GameHandler gameHandle(L);
 
-	Player player(L);
-	Enemy enemy = Enemy(20,20);
 	
 	
 
@@ -51,9 +49,8 @@ int main()
 	while (window.isOpen())
 	{
 		int error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
-		
-
-
+		if (error)
+			std::cout << error << std::endl;
 
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -66,8 +63,7 @@ int main()
 
 		window.clear();
 		window.draw(gameHandle);
-		window.draw(player);
-		window.draw(enemy);
+
 		window.display();
 	}
 
