@@ -30,12 +30,20 @@ public:
 	int getAttack() const;
 	void setAttack(int attack);
 
+	sf::Vector2f getPlayerPosition() const;
+	void setPlayerPosition(double, double);
+
+
+	//-----------------------------------	LUA
 
 	static int move(lua_State * L);
 	static int setHealth(lua_State * L);
 
 	void pushPlayerHealth(lua_State * L);
 	static int getPlayerHealth(lua_State * l);
+	static int getPlayerPos(lua_State * l);
+
+	static int setPlayerPos(lua_State* L);
 
 private:
 

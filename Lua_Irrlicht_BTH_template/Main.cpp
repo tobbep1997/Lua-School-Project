@@ -31,17 +31,24 @@ static int test(lua_State * L)
 	return 0;
 }
 
+
+const int screenWidht = 420;
+const int screenHight = 420;
 int main()
 {
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(screenWidht, screenHight), "SFML works!");
 
-	GameHandler gameHandle(L);
+	GameHandler gameHandle(L, &window);
 
+	lua_pushnumber(L, screenWidht);
+	lua_setglobal(L, "SCREEN_WIDTH");
 	
-	
+	lua_pushnumber(L, screenHight);
+	lua_setglobal(L, "SCREEN_HEIGHT");
+
 
 
 
@@ -50,7 +57,11 @@ int main()
 	{
 		int error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
 		if (error)
-			std::cout << error << std::endl;
+		{
+			std::cout << lua_tostring(L, -1) << '\n';
+			lua_pop(L, 1);
+		}
+	
 
 		sf::Event event;
 		while (window.pollEvent(event))

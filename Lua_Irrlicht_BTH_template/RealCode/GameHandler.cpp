@@ -1,9 +1,10 @@
 #include "GameHandler.h"
 
-GameHandler::GameHandler(lua_State* L)
+GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 {
 	player = new Player(L);
 	enemy = Enemy();
+	wndPtr = window;
 }
 	
 
@@ -45,6 +46,21 @@ void GameHandler::_playerInputHandler(lua_State* L)
 	{
 		lua_pushstring(L, "FUCK");
 		lua_setglobal(L, "KeyBoardState");
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		lua_pushinteger(L, sf::Mouse::getPosition(*wndPtr).x);
+		lua_setglobal(L, "MouseX");
+		lua_pushinteger(L, sf::Mouse::getPosition(*wndPtr).y);
+		lua_setglobal(L, "MouseY");
+	}
+	else
+	{
+		lua_pushinteger(L, -1);
+		lua_setglobal(L, "MouseX");
+		lua_pushinteger(L, -1);
+		lua_setglobal(L, "MouseY");
 	}
 
 }

@@ -6,13 +6,14 @@
 class GameHandler : public sf::Drawable
 {
 public:
-	GameHandler(lua_State * L = nullptr);
+	GameHandler(lua_State * L = nullptr, sf::RenderWindow * window = nullptr);
 	~GameHandler();
 
 	void Update(lua_State* L);
 
 private:
 
+	sf::RenderWindow * wndPtr;
 
 	Player* player;
 	Enemy enemy;
