@@ -148,12 +148,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="RealCode\Bullet.cpp" />
+    <ClCompile Include="RealCode\BulletHandler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RealCode\Enemy.cpp" />
     <ClCompile Include="RealCode\GameHandler.cpp" />
     <ClCompile Include="RealCode\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RealCode\Bullet.h" />
+    <ClInclude Include="RealCode\BulletHandler.h" />
     <ClInclude Include="RealCode\Enemy.h" />
     <ClInclude Include="RealCode\GameHandler.h" />
     <ClInclude Include="RealCode\Player.h" />
