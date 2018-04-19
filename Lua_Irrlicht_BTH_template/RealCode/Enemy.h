@@ -23,11 +23,16 @@ public:
 
 	void MoveTowards(double speed, double posx1, double posy1, double posx2, double posy2);
 
+	double getLenghtTo(double posx1, double posy1, double posx2, double posy2);
+
 	void pushLuaFunctions(lua_State * L);
 
 	//-------------------------- LUA||
 	static int luaGetThisPos(lua_State * L);
+	static int luaGetThisAttack(lua_State * L);
 	static int luaMoveTowards(lua_State * L);
+	static int luaGetLenghtTo(lua_State * L);
+	
 
 private:
 	sf::Vector2f _normalize(sf::Vector2f pos);
