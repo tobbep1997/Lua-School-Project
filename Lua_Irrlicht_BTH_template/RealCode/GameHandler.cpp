@@ -5,6 +5,8 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 	player = new Player(L);
 	enemy = Enemy();
 	wndPtr = window;
+	bh = BulletHandler();
+	bh.pushToLua(L);
 }
 	
 
@@ -17,6 +19,7 @@ void GameHandler::Update(lua_State* L)
 {
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
+	bh.update();
 	
 }
 
@@ -69,4 +72,5 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(*player);
 	target.draw(enemy);
+	bh.draw(target, states);
 }

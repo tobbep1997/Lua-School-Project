@@ -1,5 +1,7 @@
 #pragma once
 #include "Bullet.h"
+#include <lua.hpp>
+#include <iostream>
 class BulletHandler
 {
 private:
@@ -11,6 +13,9 @@ public:
 
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates state) const;
-	void addBullet(double, double);
+	void addBullet(sf::Vector2f pos, sf::Vector2f dir);
+	static int addBullet(lua_State * L);
+
+	void pushToLua(lua_State * L);
 };
 

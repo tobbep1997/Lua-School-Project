@@ -33,6 +33,7 @@ public:
 	sf::Vector2f getPlayerPosition() const;
 	void setPlayerPosition(double, double);
 
+	sf::CircleShape& getShape();
 
 	//-----------------------------------	LUA
 

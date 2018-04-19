@@ -25,5 +25,7 @@ if x < 0 then PlayerSetPos(SCREEN_WIDTH, y) end
 if y > SCREEN_HEIGHT then PlayerSetPos(x,0) end
 if y < 0 then PlayerSetPos(x, SCREEN_HEIGHT) end
 
-if MouseX ~= -1 and MouseY ~= -1 then PlayerSetPos(MouseX, MouseY) end
+print(MouseX, MouseY)
+
+if MouseX ~= -1 and MouseY ~= -1 then AddBullet(x,y,MouseX, MouseY) end
 

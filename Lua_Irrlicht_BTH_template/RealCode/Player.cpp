@@ -75,6 +75,11 @@ void Player::setPlayerPosition(double x, double y)
 	this->m_position.y = y;
 }
 
+sf::CircleShape & Player::getShape()
+{
+	return shape;
+}
+
 void Player::move(double x, double y)
 {
 	m_position.x += x;
@@ -125,8 +130,9 @@ int Player::getPlayerHealth(lua_State * L)
 int Player::getPlayerPos(lua_State * L)
 {
 	Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
-	lua_pushinteger(L, p->getPlayerPosition().x);
-	lua_pushinteger(L, p->getPlayerPosition().y);
+	
+	lua_pushinteger(L, p->getPlayerPosition().x + p->getShape().getRadius());
+	lua_pushinteger(L, p->getPlayerPosition().y + p->getShape().getRadius());
 	return 2;	
 }
 

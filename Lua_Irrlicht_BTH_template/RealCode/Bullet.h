@@ -5,11 +5,11 @@ class Bullet
 {
 	sf::Vector2f position;
 	sf::Vector2f direction;
-
+	float velocity;
 	sf::CircleShape shape;
 
 public:
-	Bullet(sf::Vector2f position = sf::Vector2f(0,0));
+	Bullet(sf::Vector2f position = sf::Vector2f(0, 0), sf::Vector2f direction = sf::Vector2f(0, 0), float velocity = 1.0f);
 	~Bullet();
 
 	void update();

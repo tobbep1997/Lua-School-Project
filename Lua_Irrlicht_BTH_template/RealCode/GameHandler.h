@@ -3,6 +3,7 @@
 #include "lua.hpp"
 #include "Player.h"
 #include "Enemy.h"
+#include "BulletHandler.h"
 class GameHandler : public sf::Drawable
 {
 public:
@@ -17,7 +18,7 @@ private:
 
 	Player* player;
 	Enemy enemy;
-
+	BulletHandler bh;
 
 	void _playerInputHandler(lua_State* L);
 
