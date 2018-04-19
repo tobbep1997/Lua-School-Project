@@ -1,14 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include "lua.hpp"
 
 class Enemy : public sf::Drawable
 {
 public:
-	Enemy(const int posX = 0, const int posY = 0);
+	Enemy(lua_State * L, const int posX = 0, const int posY = 0);
+	Enemy();
 	~Enemy();
 	
-	void Update();
+	void Update(lua_State * L);
 
 	void DamageEnemy(int damage);
 
@@ -18,7 +19,24 @@ public:
 	int getAttack();
 	void setAttack(int attack);
 
+	sf::Vector2f getPosition() const;
+
+	void MoveTowards(double speed, double posx1, double posy1, double posx2, double posy2);
+
+	double getLenghtTo(double posx1, double posy1, double posx2, double posy2);
+
+	void pushLuaFunctions(lua_State * L);
+
+	//-------------------------- LUA||
+	static int luaGetThisPos(lua_State * L);
+	static int luaGetThisAttack(lua_State * L);
+	static int luaMoveTowards(lua_State * L);
+	static int luaGetLenghtTo(lua_State * L);
+	
+
 private:
+	sf::Vector2f _normalize(sf::Vector2f pos);
+
 	int m_health;
 	int m_attack;
 	sf::Vector2f m_position;

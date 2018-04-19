@@ -17,8 +17,8 @@ private:
 	sf::RenderWindow * wndPtr;
 
 	Player* player;
-	Enemy enemy;
 	BulletHandler bh;
+	Enemy* enemy;
 
 	void _playerInputHandler(lua_State* L);
 
