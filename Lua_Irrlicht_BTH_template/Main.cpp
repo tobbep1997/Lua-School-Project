@@ -15,6 +15,7 @@
 #include "RealCode/Player.h"
 #include "RealCode/Enemy.h"
 #include "RealCode/GameHandler.h"
+#include "RealCode/PublicLuaFunctions/LuaMath.h"
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -49,7 +50,8 @@ int main()
 	lua_pushnumber(L, screenHight);
 	lua_setglobal(L, "SCREEN_HEIGHT");
 
-
+	LuaMath::Math pushLuaMath;
+	pushLuaMath.pushLuaFunctions(L);
 
 
 	std::thread conThread(ConsoleThread, L);

@@ -111,7 +111,7 @@ void Enemy::pushLuaFunctions(lua_State * L)
 
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Enemy::luaGetLenghtTo, 1);
-	lua_setglobal(L, "EnemyGetLenghtTo");
+	lua_setglobal(L, "EnemyGetLenghtTo");  
 }
 
 int Enemy::luaGetThisPos(lua_State * L)

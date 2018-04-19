@@ -11,3 +11,6 @@ EnemyGetPos()					//gets the enemy pos
 EnemyMoveTowards(speed,+4 argu)	//Moves the enemy twords the target
 EnemyGetAttack()				//Return the enemys dmg
 EnemyGetLenghtTo(pos1,po2)		//Will return the lenght to the target
+
+--Global Functions--
+LuaGetLenghtTo()				//Returns the lenght from pos A to pos B
