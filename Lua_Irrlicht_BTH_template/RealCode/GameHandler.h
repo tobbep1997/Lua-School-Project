@@ -16,7 +16,7 @@ private:
 	sf::RenderWindow * wndPtr;
 
 	Player* player;
-	Enemy enemy;
+	Enemy* enemy;
 
 
 	void _playerInputHandler(lua_State* L);

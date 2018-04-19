@@ -98,6 +98,7 @@ int Player::move(lua_State * L)
 
 int Player::setHealth(lua_State * L)
 {
+	//TODO: BOBBY NO POP?? WHAT THE FUCK DUDE???? HELLOOOOOOO
 	if (lua_isnumber(L, -1))
 	{
 		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));

@@ -3,7 +3,7 @@
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 {
 	player = new Player(L);
-	enemy = Enemy();
+	enemy = new Enemy(L);
 	wndPtr = window;
 }
 	
@@ -11,13 +11,14 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 GameHandler::~GameHandler()
 {
 	delete player;
+	delete enemy;
 }
 
 void GameHandler::Update(lua_State* L)
 {
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
-	
+	enemy->Update(L);
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
@@ -68,5 +69,5 @@ void GameHandler::_playerInputHandler(lua_State* L)
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(*player);
-	target.draw(enemy);
+	target.draw(*enemy);
 }

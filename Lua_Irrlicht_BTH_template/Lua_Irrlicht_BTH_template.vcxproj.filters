@@ -54,5 +54,6 @@
   <ItemGroup>
     <None Include="Lua\Test.lua" />
     <None Include="Lua\Jocke.lua" />
+    <None Include="Lua\EnemyAI.lua" />
   </ItemGroup>
 </Project>
