@@ -1,0 +1,12 @@
+---Player---
+PlayerMove(double, double)	//Moves the player to the set pos 
+PlayerGetHealth()			//Returns the players current health
+PlayerSetHealth(double)		//Adjusts the players current health
+PlayerGetPos()				//Returns the players position
+PlayerSetPos(double double)	//Sets pos
+
+---Enemy---
+EnemyGetPos()					//gets the enemy pos
+EnemyMoveTowards(speed,+4 argu)	//Moves the enemy twords the target
+EnemyGetAttack()				//Return the enemys dmg
+EnemyGetLenghtTo(pos1,po2)		//Will return the lenght to the target
