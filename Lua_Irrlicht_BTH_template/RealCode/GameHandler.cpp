@@ -3,7 +3,7 @@
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 {
 	player = new Player(L);
-	enemy = new Enemy(L);
+	enemy = new Enemy(L, 100,100);
 	wndPtr = window;
 }
 	

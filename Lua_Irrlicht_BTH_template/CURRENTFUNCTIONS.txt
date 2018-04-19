@@ -4,6 +4,7 @@ PlayerGetHealth()			//Returns the players current health
 PlayerSetHealth(double)		//Adjusts the players current health
 PlayerGetPos()				//Returns the players position
 PlayerSetPos(double double)	//Sets pos
+PlayerTakeDamage(int)		//Makes the player take damage
 
 ---Enemy---
 EnemyGetPos()					//gets the enemy pos
