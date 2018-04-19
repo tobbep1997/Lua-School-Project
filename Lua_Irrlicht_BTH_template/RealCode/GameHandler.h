@@ -17,6 +17,7 @@ private:
 
 	Player* player;
 	Enemy* enemy;
+	Enemy* enemy2;
 
 
 	void _playerInputHandler(lua_State* L);

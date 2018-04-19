@@ -28,6 +28,15 @@ Enemy::~Enemy()
 
 void Enemy::Update(lua_State * L)
 {
+	lua_pushinteger(L, m_position.x);
+	lua_setglobal(L, "LocalEnemyPosX");
+	lua_pushinteger(L, m_position.y);
+	lua_setglobal(L, "LocalEnemyPosY");
+	
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Enemy::luaMoveTowards, 1);
+	lua_setglobal(L, "EnemyMoveTowards");
+
 	int error =  luaL_loadfile(L, "Lua/EnemyAI.lua") || lua_pcall(L, 0, 0, 0);
 	
 	if (error)
@@ -35,6 +44,11 @@ void Enemy::Update(lua_State * L)
 		std::cout << lua_tostring(L, -1) << '\n';
 		lua_pop(L, 1);
 	}
+	//DIE LUA DIEEEEE
+	/*lua_pushnumber(L, 0);
+	lua_setglobal(L, "LocalEnemyPosX");
+	lua_pushnumber(L, 0);
+	lua_setglobal(L, "LocalEnemyPosY");*/
 }
 
 void Enemy::DamageEnemy(int damage)
@@ -101,9 +115,7 @@ void Enemy::pushLuaFunctions(lua_State * L)
 	lua_pushcclosure(L, Enemy::luaGetThisPos, 1);
 	lua_setglobal(L, "EnemyGetPos");
 
-	lua_pushlightuserdata(L, this);
-	lua_pushcclosure(L, Enemy::luaMoveTowards, 1);
-	lua_setglobal(L, "EnemyMoveTowards");
+	
 
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Enemy::luaGetThisAttack, 1);
