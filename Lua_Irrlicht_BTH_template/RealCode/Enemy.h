@@ -19,6 +19,9 @@ public:
 	int getAttack();
 	void setAttack(int attack);
 
+	bool getExploded();
+	void setExploded(bool state);
+
 	sf::Vector2f getPosition() const;
 
 	void MoveTowards(double speed, double posx1, double posy1, double posx2, double posy2);
@@ -32,6 +35,9 @@ public:
 	static int luaGetThisAttack(lua_State * L);
 	static int luaMoveTowards(lua_State * L);
 	static int luaGetLenghtTo(lua_State * L);
+
+	static int luaGetExploded(lua_State * L);
+	static int luaSetExploded(lua_State * L);
 	
 
 private:
@@ -39,6 +45,9 @@ private:
 
 	int m_health;
 	int m_attack;
+
+	bool m_exploded = false;
+
 	sf::Vector2f m_position;
 
 	sf::CircleShape shape;

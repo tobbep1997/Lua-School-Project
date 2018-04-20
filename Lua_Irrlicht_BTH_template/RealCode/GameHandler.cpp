@@ -21,8 +21,15 @@ void GameHandler::Update(lua_State* L)
 {
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
-	enemy->Update(L);
-	enemy2->Update(L);
+	if (enemy->getExploded() == false)
+	{
+		enemy->Update(L);
+	}
+	if (enemy2->getExploded() == false)
+	{
+		enemy2->Update(L);
+	}
+	
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
