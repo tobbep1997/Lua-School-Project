@@ -37,6 +37,8 @@ const int screenWidht = 420;
 const int screenHight = 420;
 int main()
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 

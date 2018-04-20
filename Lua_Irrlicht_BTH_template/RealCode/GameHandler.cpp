@@ -29,6 +29,24 @@ void GameHandler::Update(lua_State* L)
 	{
 		enemy2->Update(L);
 	}
+	for (size_t i = 0; i < enemyList.size(); i++)
+	{
+		if (enemyList.at(i)->getExploded() == false)
+		{
+			enemyList.at(i)->Update(L);
+		}
+	}
+
+	std::cout << enemyList.size() << std::endl;
+	for (size_t i = 0; i < enemyList.size(); i++)
+	{
+		if (enemyList.at(i)->getExploded())
+		{
+			delete enemyList.at(i);
+			enemyList.erase(enemyList.begin() + i);
+			break;
+		}
+	}
 	
 }
 
@@ -75,6 +93,19 @@ void GameHandler::_playerInputHandler(lua_State* L)
 		lua_setglobal(L, "MouseY");
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
+	{
+		if (pressed == false)
+		{
+			enemyList.push_back(new Enemy(L, 50, 50));
+			pressed = true;
+		}
+	}
+	else
+	{
+		pressed = false;
+	}
+
 }
 
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -82,4 +113,8 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(*player);
 	target.draw(*enemy);
 	target.draw(*enemy2);
+	for (size_t i = 0; i < enemyList.size(); i++)
+	{
+		target.draw(*enemyList.at(i));
+	}
 }

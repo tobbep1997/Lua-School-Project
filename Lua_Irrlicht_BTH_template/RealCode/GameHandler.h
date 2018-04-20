@@ -18,7 +18,9 @@ private:
 	Player* player;
 	Enemy* enemy;
 	Enemy* enemy2;
+	std::vector<Enemy*> enemyList;
 
+	bool pressed = false;
 
 	void _playerInputHandler(lua_State* L);
 
