@@ -16,8 +16,8 @@ private:
 	sf::RenderWindow * wndPtr;
 
 	Player* player;
-	Enemy* enemy;
-	Enemy* enemy2;
+	/*Enemy* enemy;
+	Enemy* enemy2;*/
 	std::vector<Enemy*> enemyList;
 
 	bool pressed = false;
