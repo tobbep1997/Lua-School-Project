@@ -35,10 +35,43 @@ void GameHandler::Update(lua_State* L)
 	{
 		if (enemyList.at(i)->getExploded())
 		{
+			sf::CircleShape temp;
+			temp.setFillColor(sf::Color(255,0,0,125));
+			temp.setRadius(20.0f);
+			temp.setPosition(enemyList.at(i)->getPosition());
+			deadEnemys.push_back(temp);
+
 			delete enemyList.at(i);
 			enemyList.erase(enemyList.begin() + i);
 			break;
 		}
+	}
+
+	/*for (size_t i = 0; i < deadEnemys.size(); i++)
+	{
+		if (deadEnemys.at(i).getFillColor().a > 10)
+		{
+			sf::Color temp = deadEnemys.at(i).getFillColor();
+			temp.a = temp.a - 0.001f;
+			deadEnemys.at(i).setFillColor(temp);
+		}
+	}*/
+	using namespace std::chrono_literals;
+
+	if (m_i == 0)
+	{
+		m_i++;
+		fadeThread = std::async(std::launch::async, &GameHandler::_enemyFade, this);
+	}
+	auto status = fadeThread.wait_for(0ms);
+
+	if (status == std::future_status::ready) {
+		fadeThread.get();
+		fadeThread = std::async(std::launch::async, &GameHandler::_enemyFade, this);
+
+	}
+	else {
+		//std::cout << "Thread running" << std::endl;
 	}
 	
 }
@@ -146,5 +179,29 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	for (size_t i = 0; i < enemyList.size(); i++)
 	{
 		target.draw(*enemyList.at(i));
+	}
+	for (size_t i = 0; i < deadEnemys.size(); i++)
+	{
+		target.draw(deadEnemys.at(i));
+	}
+}
+
+void GameHandler::_enemyFade()
+{
+	using namespace std::chrono_literals;
+	for (size_t i = 0; i < deadEnemys.size(); i++)
+	{
+		if (deadEnemys.at(i).getFillColor().a > 10)
+		{
+			std::this_thread::sleep_for(50ms);
+			sf::Color temp = deadEnemys.at(i).getFillColor();
+			temp.a = temp.a - 1;
+			deadEnemys.at(i).setFillColor(temp);
+		}
+		else
+		{
+			deadEnemys.erase(deadEnemys.begin() + i);
+			break;
+		}
 	}
 }
