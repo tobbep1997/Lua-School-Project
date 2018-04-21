@@ -166,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Lua\EnemyAI.lua" />
-    <None Include="Lua\Jocke.lua" />
+    <None Include="Lua\GameHandler.lua" />
     <None Include="Lua\Test.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

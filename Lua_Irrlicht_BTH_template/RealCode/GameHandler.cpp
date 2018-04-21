@@ -21,7 +21,7 @@ GameHandler::~GameHandler()
 void GameHandler::Update(lua_State* L)
 {
 	_playerInputHandler(L);
-	int error = luaL_loadfile(L, "Lua/Jocke.lua") ||lua_pcall(L, 0, 0, 0);
+	int error = luaL_loadfile(L, "Lua/GameHandler.lua") ||lua_pcall(L, 0, 0, 0);
 	
 	for (size_t i = 0; i < enemyList.size(); i++)
 	{
