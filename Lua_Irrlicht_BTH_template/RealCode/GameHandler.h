@@ -13,6 +13,11 @@ public:
 
 private:
 
+	void PushLuaFunctions(lua_State * L);
+
+	void AddingEnemy(double posX, double posY);
+	static int luaAddEnemy(lua_State * L);
+
 	sf::RenderWindow * wndPtr;
 
 	Player* player;

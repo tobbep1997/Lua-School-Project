@@ -4,7 +4,7 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 {
 	player = new Player(L);
 	
-	
+	PushLuaFunctions(L);
 
 	enemyList.push_back(new Enemy(L, 100, 100));
 	enemyList.push_back(new Enemy(L, 1, 100));
@@ -31,7 +31,6 @@ void GameHandler::Update(lua_State* L)
 		}
 	}
 
-	std::cout << enemyList.size() << std::endl;
 	for (size_t i = 0; i < enemyList.size(); i++)
 	{
 		if (enemyList.at(i)->getExploded())
@@ -42,6 +41,35 @@ void GameHandler::Update(lua_State* L)
 		}
 	}
 	
+}
+
+void GameHandler::PushLuaFunctions(lua_State * L)
+{
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, GameHandler::luaAddEnemy, 1);
+	lua_setglobal(L, "AddEnemy");
+}
+
+void GameHandler::AddingEnemy(double posX, double posY)
+{
+	enemyList.push_back(new Enemy(posX, posY));
+}
+
+int GameHandler::luaAddEnemy(lua_State * L)
+{
+	if (lua_isnumber(L, -1) && lua_isnumber(L, -2))
+	{
+		GameHandler* p = static_cast<GameHandler*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->AddingEnemy(lua_tonumber(L, -2), lua_tonumber(L, -1));
+		lua_pop(L, 2);
+
+		return 0;
+	}
+	else
+	{
+		std::cout << "Error: Expected EnemyAddingEnemy(double, double)" << std::endl;
+	}
+	return 0;
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
@@ -87,11 +115,20 @@ void GameHandler::_playerInputHandler(lua_State* L)
 		lua_setglobal(L, "MouseY");
 	}
 
+	lua_pushinteger(L, sf::Mouse::getPosition(*wndPtr).x);
+	lua_setglobal(L, "MouseXX");
+	lua_pushinteger(L, sf::Mouse::getPosition(*wndPtr).y);
+	lua_setglobal(L, "MouseYY");
+
+	lua_pushboolean(L, false);
+	lua_setglobal(L, "SpawnEnemy");
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
 	{
 		if (pressed == false)
 		{
-			enemyList.push_back(new Enemy(L, 50, 50));
+			//enemyList.push_back(new Enemy(L, 50, 50));
+			lua_pushboolean(L, true);
+			lua_setglobal(L, "SpawnEnemy");
 			pressed = true;
 		}
 	}

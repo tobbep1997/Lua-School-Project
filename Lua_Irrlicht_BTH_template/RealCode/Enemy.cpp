@@ -16,6 +16,17 @@ Enemy::Enemy(lua_State * L,const int posX , const int posY)
 	pushLuaFunctions(L);
 }
 
+Enemy::Enemy(const int posX, const int posY)
+{
+	shape.setPosition(posX, posY);
+	shape.setRadius(20.0f);
+	shape.setFillColor(sf::Color::Red);
+
+	m_health = 100;
+	m_attack = 10;
+	m_position = sf::Vector2f(posX, posY);
+}
+
 Enemy::Enemy()
 {
 	std::cout << "NAI BLYET NOT USE THE FUNCTION" << std::endl;

@@ -6,6 +6,7 @@ class Enemy : public sf::Drawable
 {
 public:
 	Enemy(lua_State * L, const int posX = 0, const int posY = 0);
+	Enemy(const int posX = 0, const int posY = 0);
 	Enemy();
 	~Enemy();
 	
