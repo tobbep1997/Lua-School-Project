@@ -154,6 +154,7 @@
     <ClCompile Include="RealCode\Enemy.cpp" />
     <ClCompile Include="RealCode\GameHandler.cpp" />
     <ClCompile Include="RealCode\Player.cpp" />
+    <ClCompile Include="RealCode\PublicLuaFunctions\LuaMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RealCode\Bullet.h" />
@@ -161,10 +162,11 @@
     <ClInclude Include="RealCode\Enemy.h" />
     <ClInclude Include="RealCode\GameHandler.h" />
     <ClInclude Include="RealCode\Player.h" />
+    <ClInclude Include="RealCode\PublicLuaFunctions\LuaMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lua\EnemyAI.lua" />
-    <None Include="Lua\Jocke.lua" />
+    <None Include="Lua\GameHandler.lua" />
     <None Include="Lua\Test.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

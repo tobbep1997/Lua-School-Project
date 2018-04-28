@@ -15,6 +15,7 @@
 #include "RealCode/Player.h"
 #include "RealCode/Enemy.h"
 #include "RealCode/GameHandler.h"
+#include "RealCode/PublicLuaFunctions/LuaMath.h"
 
 void ConsoleThread(lua_State* L) {
 	char command[1000];
@@ -34,8 +35,13 @@ static int test(lua_State * L)
 
 const int screenWidht = 420;
 const int screenHight = 420;
+
+sf::Clock deltaClock;
+sf::Time dt;
 int main()
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
@@ -49,12 +55,16 @@ int main()
 	lua_pushnumber(L, screenHight);
 	lua_setglobal(L, "SCREEN_HEIGHT");
 
-
+	LuaMath::Math pushLuaMath;
+	pushLuaMath.pushLuaFunctions(L);
 
 
 	std::thread conThread(ConsoleThread, L);
 	while (window.isOpen())
 	{
+		dt = deltaClock.restart();
+		lua_pushnumber(L, dt.asSeconds() * 50);
+		lua_setglobal(L, "DELTA_TIME");
 		int error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
 		if (error)
 		{

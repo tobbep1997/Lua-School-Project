@@ -147,7 +147,22 @@ int Player::setPlayerPos(lua_State * L)
 	}
 	else
 	{
-		std::cout << "Error: Expected PlayerSetPos(double, double)" << std::endl;
+		std::cout << "Error: Expected PlayerSetPos(double: PosX, double: PosY)" << std::endl;
+	}
+	return 0;
+}
+
+int Player::luaDamagePlayer(lua_State * L)
+{
+	if (lua_isnumber(L, -1))
+	{
+		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->DamagePlayer(lua_tonumber(L, -1));
+		lua_pop(L, 2);
+	}
+	else
+	{
+		std::cout << "Error: Expected PlayerSetPos(int: amountOfDamage)" << std::endl;
 	}
 	return 0;
 }
@@ -173,6 +188,12 @@ void Player::pushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Player::setPlayerPos, 1);
 	lua_setglobal(L, "PlayerSetPos");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Player::luaDamagePlayer, 1);
+	lua_setglobal(L, "PlayerTakeDamage");
+
+	
 }
 
 

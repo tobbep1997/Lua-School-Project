@@ -16,6 +16,17 @@ Enemy::Enemy(lua_State * L,const int posX , const int posY)
 	pushLuaFunctions(L);
 }
 
+Enemy::Enemy(const int posX, const int posY)
+{
+	shape.setPosition(posX, posY);
+	shape.setRadius(20.0f);
+	shape.setFillColor(sf::Color::Red);
+
+	m_health = 100;
+	m_attack = 10;
+	m_position = sf::Vector2f(posX, posY);
+}
+
 Enemy::Enemy()
 {
 	std::cout << "NAI BLYET NOT USE THE FUNCTION" << std::endl;
@@ -28,6 +39,23 @@ Enemy::~Enemy()
 
 void Enemy::Update(lua_State * L)
 {
+	lua_pushinteger(L, m_position.x);
+	lua_setglobal(L, "LocalEnemyPosX");
+	lua_pushinteger(L, m_position.y);
+	lua_setglobal(L, "LocalEnemyPosY");
+	
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Enemy::luaMoveTowards, 1);
+	lua_setglobal(L, "EnemyMoveTowards");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Enemy::luaGetExploded, 1);
+	lua_setglobal(L, "EnemyGetExploded");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Enemy::luaSetExploded, 1);
+	lua_setglobal(L, "EnemySetExploded");
+
 	int error =  luaL_loadfile(L, "Lua/EnemyAI.lua") || lua_pcall(L, 0, 0, 0);
 	
 	if (error)
@@ -35,6 +63,11 @@ void Enemy::Update(lua_State * L)
 		std::cout << lua_tostring(L, -1) << '\n';
 		lua_pop(L, 1);
 	}
+	//DIE LUA DIEEEEE
+	/*lua_pushnumber(L, 0);
+	lua_setglobal(L, "LocalEnemyPosX");
+	lua_pushnumber(L, 0);
+	lua_setglobal(L, "LocalEnemyPosY");*/
 }
 
 void Enemy::DamageEnemy(int damage)
@@ -60,6 +93,16 @@ int Enemy::getAttack()
 void Enemy::setAttack(int attack)
 {
 	m_attack = attack;
+}
+
+bool Enemy::getExploded()
+{
+	return m_exploded;
+}
+
+void Enemy::setExploded(bool state)
+{
+	m_exploded = state;
 }
 
 sf::Vector2f Enemy::getPosition() const 
@@ -101,9 +144,7 @@ void Enemy::pushLuaFunctions(lua_State * L)
 	lua_pushcclosure(L, Enemy::luaGetThisPos, 1);
 	lua_setglobal(L, "EnemyGetPos");
 
-	lua_pushlightuserdata(L, this);
-	lua_pushcclosure(L, Enemy::luaMoveTowards, 1);
-	lua_setglobal(L, "EnemyMoveTowards");
+	
 
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Enemy::luaGetThisAttack, 1);
@@ -111,7 +152,7 @@ void Enemy::pushLuaFunctions(lua_State * L)
 
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Enemy::luaGetLenghtTo, 1);
-	lua_setglobal(L, "EnemyGetLenghtTo");
+	lua_setglobal(L, "EnemyGetLenghtTo");  
 }
 
 int Enemy::luaGetThisPos(lua_State * L)
@@ -162,8 +203,34 @@ int Enemy::luaGetLenghtTo(lua_State * L)
 	return 0;
 }
 
+int Enemy::luaGetExploded(lua_State * L)
+{
+	Enemy* p = static_cast<Enemy*>(lua_touserdata(L, lua_upvalueindex(1)));
+	bool lenght = p->getExploded();
+	lua_pushboolean(L, lenght);
+	return 1;
+}
+
+int Enemy::luaSetExploded(lua_State * L)
+{
+	if (lua_isboolean(L, -1))
+	{
+		Enemy* p = static_cast<Enemy*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->setExploded(lua_toboolean(L, -1));
+		return 0;
+	}
+	else
+	{
+		std::cout << "Error: Expected EnemySetExplode(bool)" << std::endl;
+	}
+	return 0;
+}
+
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	target.draw(shape);
+	if (m_exploded == false)
+	{
+		target.draw(shape);
+	}
 }
 

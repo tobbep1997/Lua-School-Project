@@ -45,6 +45,7 @@ public:
 	static int getPlayerPos(lua_State * l);
 
 	static int setPlayerPos(lua_State* L);
+	static int luaDamagePlayer(lua_State* L);
 
 private:
 
