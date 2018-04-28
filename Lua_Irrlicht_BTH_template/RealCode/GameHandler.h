@@ -25,13 +25,13 @@ private:
 	Enemy* enemy;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	void _playerInputHandler(lua_State* L);
+	//void _playerInputHandler(lua_State* L);
 	void _enemyFade();
 	int m_i = 0;
 	std::future<void> fadeThread;
 
 	sf::RenderWindow * wndPtr;
-	Player* player;
+	//Player* player;
 	/*Enemy* enemy;
 	Enemy* enemy2;*/
 	std::vector<Enemy*> enemyList;

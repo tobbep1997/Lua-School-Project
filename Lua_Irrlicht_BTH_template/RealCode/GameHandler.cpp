@@ -177,7 +177,7 @@ void GameHandler::_playerInputHandler(lua_State* L)
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(*player);
-	target.draw(*enemy);
+	//target.draw(*enemy);
 	bh.draw(target, states);
 }
 
