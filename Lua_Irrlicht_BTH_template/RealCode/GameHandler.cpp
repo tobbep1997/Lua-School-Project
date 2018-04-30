@@ -75,7 +75,7 @@ void GameHandler::Update(lua_State* L)
 	else {
 		//std::cout << "Thread running" << std::endl;
 	}
-	
+	bh.update();
 }
 
 void GameHandler::PushLuaFunctions(lua_State * L)
