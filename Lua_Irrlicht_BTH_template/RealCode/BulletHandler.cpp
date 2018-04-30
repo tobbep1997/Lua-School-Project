@@ -2,8 +2,9 @@
 
 
 
-BulletHandler::BulletHandler()
+BulletHandler::BulletHandler(const sf::Vector2u & windowSize)
 {
+	this->windowSize = windowSize;
 }
 
 
@@ -13,6 +14,19 @@ BulletHandler::~BulletHandler()
 
 void BulletHandler::update()
 {
+	if (windowSize != sf::Vector2u(0, 0))
+	{
+		for (int i = 0; i < bullets.size(); i++)
+		{
+			if (bullets[i]->getPos().x > windowSize.x || 
+				bullets[i]->getPos().y > windowSize.y ||
+				bullets[i]->getPos().x < 0 || 
+				bullets[i]->getPos().y < 0)
+			{
+				bullets.erase(bullets.begin() + i);
+			}
+		}
+	}
 	for (int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i]->update();

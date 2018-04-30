@@ -9,7 +9,7 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 	enemyList.push_back(new Enemy(L, 100, 100));
 	enemyList.push_back(new Enemy(L, 1, 100));
 	wndPtr = window;
-	bh = BulletHandler();
+	bh = BulletHandler(window->getSize());
 	bh.pushToLua(L);
 }
 	
@@ -177,7 +177,9 @@ void GameHandler::_playerInputHandler(lua_State* L)
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(*player);
-	//target.draw(*enemy);
+	for (auto e : enemyList)
+		target.draw(*e);
+	
 	bh.draw(target, states);
 }
 

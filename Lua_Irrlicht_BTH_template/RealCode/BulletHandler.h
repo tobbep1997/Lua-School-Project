@@ -7,8 +7,10 @@ class BulletHandler
 private:
 	std::vector<Bullet*> bullets;
 
+	sf::Vector2u windowSize;
+
 public:
-	BulletHandler();
+	BulletHandler(const sf::Vector2u & windowSize = sf::Vector2u(0,0));
 	~BulletHandler();
 
 	void update();

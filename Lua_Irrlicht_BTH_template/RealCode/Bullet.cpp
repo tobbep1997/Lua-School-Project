@@ -17,11 +17,18 @@ Bullet::~Bullet()
 {
 }
 
+sf::Vector2f Bullet::getPos() const
+{
+	return position;
+}
+
 void Bullet::update()
 {
 	position += direction * velocity;
 	this->shape.setPosition(position);
 }
+
+
 
 void Bullet::draw(sf::RenderTarget & target, sf::RenderStates state) const
 {
