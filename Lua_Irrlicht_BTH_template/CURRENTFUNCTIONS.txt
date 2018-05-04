@@ -12,5 +12,8 @@ EnemyMoveTowards(speed,+4 argu)	//Moves the enemy twords the target
 EnemyGetAttack()				//Return the enemys dmg
 EnemyGetLenghtTo(pos1,po2)		//Will return the lenght to the target
 
+---Bullet---
+AddBullet(posX, posY, MouseX, MouseY)	//Spawns a bullet on the player and fires towards the mouse 
+
 --Global Functions--
 LuaGetLenghtTo()				//Returns the lenght from pos A to pos B
