@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="RealCode\Map\Map.cpp" />
     <ClCompile Include="RealCode\Bullet.cpp" />
     <ClCompile Include="RealCode\BulletHandler.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="RealCode\PublicLuaFunctions\LuaMath.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RealCode\Map\Map.h" />
     <ClInclude Include="RealCode\Bullet.h" />
     <ClInclude Include="RealCode\BulletHandler.h" />
     <ClInclude Include="RealCode\Enemy.h" />

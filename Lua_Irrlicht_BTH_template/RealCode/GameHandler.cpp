@@ -3,7 +3,7 @@
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 {
 	player = new Player(L);
-	
+
 	PushLuaFunctions(L);
 
 	enemyList.push_back(new Enemy(L, 100, 100));
@@ -22,6 +22,9 @@ GameHandler::~GameHandler()
 
 void GameHandler::Update(lua_State* L)
 {
+	
+	
+
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/GameHandler.lua") ||lua_pcall(L, 0, 0, 0);
 	

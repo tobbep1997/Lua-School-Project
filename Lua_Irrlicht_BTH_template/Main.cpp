@@ -58,6 +58,8 @@ int main()
 	LuaMath::Math pushLuaMath;
 	pushLuaMath.pushLuaFunctions(L);
 
+	Map * map = new Map(&window);
+
 
 	std::thread conThread(ConsoleThread, L);
 	while (window.isOpen())
@@ -81,10 +83,12 @@ int main()
 		}
 
 		gameHandle.Update(L);
+		map->update();
 
 		window.clear();
 		window.draw(gameHandle);
-
+		window.draw(*map);
+		
 		window.display();
 	}
 

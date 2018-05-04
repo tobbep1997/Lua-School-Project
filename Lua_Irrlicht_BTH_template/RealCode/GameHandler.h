@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include <future>
 #include "BulletHandler.h"
+#include "Map\Map.h"
 class GameHandler : public sf::Drawable
 {
 public:
@@ -23,6 +24,7 @@ private:
 	Player* player;
 	BulletHandler bh;
 	Enemy* enemy;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	//void _playerInputHandler(lua_State* L);
