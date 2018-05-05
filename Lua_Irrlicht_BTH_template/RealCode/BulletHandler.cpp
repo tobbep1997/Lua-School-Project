@@ -57,7 +57,7 @@ int BulletHandler::addBullet(lua_State * L)
 	{
 		BulletHandler* b = static_cast<BulletHandler*>(lua_touserdata(L, lua_upvalueindex(1)));
 		b->addBullet(sf::Vector2f(lua_tonumber(L, -4), lua_tonumber(L, -3)), sf::Vector2f(lua_tonumber(L, -2), lua_tonumber(L, -1)));
-		lua_pop(L, 2);
+		lua_pop(L, 4);
 	}
 	else
 	{

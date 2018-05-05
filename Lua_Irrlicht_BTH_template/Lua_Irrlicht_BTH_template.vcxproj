@@ -167,6 +167,7 @@
     <ClInclude Include="RealCode\PublicLuaFunctions\LuaMath.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Lua\Editor.lua" />
     <None Include="Lua\EnemyAI.lua" />
     <None Include="Lua\GameHandler.lua" />
     <None Include="Lua\Test.lua" />

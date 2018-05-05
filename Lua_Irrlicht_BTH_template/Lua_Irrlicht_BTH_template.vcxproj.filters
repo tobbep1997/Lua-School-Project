@@ -67,5 +67,6 @@
     <None Include="Lua\Test.lua" />
     <None Include="Lua\EnemyAI.lua" />
     <None Include="Lua\GameHandler.lua" />
+    <None Include="Lua\Editor.lua" />
   </ItemGroup>
 </Project>

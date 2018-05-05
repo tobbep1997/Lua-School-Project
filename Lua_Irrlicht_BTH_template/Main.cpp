@@ -58,7 +58,7 @@ int main()
 	LuaMath::Math pushLuaMath;
 	pushLuaMath.pushLuaFunctions(L);
 
-	Map * map = new Map(&window);
+	Map * map = new Map(&window, L);
 
 
 	std::thread conThread(ConsoleThread, L);
