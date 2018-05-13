@@ -46,8 +46,8 @@ int main()
 	luaL_openlibs(L);
 
 	sf::RenderWindow window(sf::VideoMode(screenWidht, screenHight), "SFML works!");
-
-	GameHandler gameHandle(L, &window);
+	Map * map = new Map(&window, L);
+	GameHandler gameHandle(L, &window, map);
 
 	lua_pushnumber(L, screenWidht);
 	lua_setglobal(L, "SCREEN_WIDTH");
@@ -58,7 +58,7 @@ int main()
 	LuaMath::Math pushLuaMath;
 	pushLuaMath.pushLuaFunctions(L);
 
-	Map * map = new Map(&window, L);
+	
 
 
 	std::thread conThread(ConsoleThread, L);
@@ -83,11 +83,11 @@ int main()
 		}
 
 		gameHandle.Update(L,dt.asSeconds() * 50);
-		map->update();
+		
 
 		window.clear();
 		window.draw(gameHandle);
-		window.draw(*map);
+		
 		
 		window.display();
 	}

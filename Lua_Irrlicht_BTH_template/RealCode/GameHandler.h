@@ -9,7 +9,7 @@
 class GameHandler : public sf::Drawable
 {
 public:
-	GameHandler(lua_State * L = nullptr, sf::RenderWindow * window = nullptr);
+	GameHandler(lua_State * L = nullptr, sf::RenderWindow * window = nullptr, Map * map = nullptr);
 	~GameHandler();
 
 	void Update(lua_State* L, const float deltaTime);
@@ -24,6 +24,8 @@ private:
 	Player* player;
 	BulletHandler bh;
 	Enemy* enemy;
+
+	Map * m_map;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

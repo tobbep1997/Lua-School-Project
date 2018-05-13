@@ -107,6 +107,11 @@ int Map::setColor(lua_State * L)
 	return 0;
 }
 
+std::vector<sf::RectangleShape*>& Map::getTiles()
+{
+	return tiles;
+}
+
 void Map::pushLuaFunc()
 {
 	lua_pushlightuserdata(L, this);

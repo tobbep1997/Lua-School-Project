@@ -1,6 +1,6 @@
 #include "GameHandler.h"
 
-GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
+GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 {
 	player = new Player(L);
 
@@ -11,6 +11,8 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window)
 	wndPtr = window;
 	bh = BulletHandler(window->getSize());
 	bh.pushToLua(L);
+
+	m_map = map;
 }
 	
 
@@ -22,7 +24,7 @@ GameHandler::~GameHandler()
 
 void GameHandler::Update(lua_State* L, const float deltaTime)
 {
-	
+	m_map->update();
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/GameHandler.lua") ||lua_pcall(L, 0, 0, 0);
 	
@@ -76,7 +78,7 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 	else {
 		//std::cout << "Thread running" << std::endl;
 	}
-	bh.update(deltaTime,enemyList);
+	bh.update(deltaTime,enemyList, m_map->getTiles());
 }
 
 void GameHandler::PushLuaFunctions(lua_State * L)
@@ -177,11 +179,13 @@ void GameHandler::_playerInputHandler(lua_State* L)
 
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
+	target.draw(*m_map);
 	target.draw(*player);
 	for (auto e : enemyList)
 		target.draw(*e);
 	
 	bh.draw(target, states);
+
 }
 
 void GameHandler::_enemyFade()

@@ -21,6 +21,8 @@ public:
 
 	void setColor(double r, double g, double b, double a);
 	static int setColor(lua_State * L);
+
+	std::vector<sf::RectangleShape*> & getTiles();
 private:
 	std::vector<sf::RectangleShape*> tiles;
 	sf::Color color;

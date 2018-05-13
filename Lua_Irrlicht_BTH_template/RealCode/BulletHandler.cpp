@@ -12,7 +12,7 @@ BulletHandler::~BulletHandler()
 {
 }
 
-void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy)
+void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, std::vector<sf::RectangleShape*> tiles)
 {
 	if (windowSize != sf::Vector2u(0, 0))
 	{
@@ -34,6 +34,17 @@ void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy)
 					{
 						bullets.erase(bullets.begin() + i);
 						enemy.at(j)->DamageEnemy(10);
+						break;
+					}
+				}
+			}
+			for (int j = 0; j < tiles.size(); ++j)
+			{
+				if (bullets.at(i) != nullptr && tiles.at(j) != nullptr)
+				{
+					if (bullets[i]->getShape().getGlobalBounds().intersects(tiles[j]->getGlobalBounds()))
+					{
+						bullets.erase(bullets.begin() + i);
 						break;
 					}
 				}
