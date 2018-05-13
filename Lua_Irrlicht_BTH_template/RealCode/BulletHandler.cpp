@@ -12,7 +12,7 @@ BulletHandler::~BulletHandler()
 {
 }
 
-void BulletHandler::update()
+void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy)
 {
 	if (windowSize != sf::Vector2u(0, 0))
 	{
@@ -24,12 +24,25 @@ void BulletHandler::update()
 				bullets[i]->getPos().y < 0)
 			{
 				bullets.erase(bullets.begin() + i);
+				break;
+			}
+			for (int j = 0; j < enemy.size(); ++j)
+			{
+				if (bullets.at(i) != nullptr && enemy.at(j) != nullptr)
+				{
+					if (bullets[i]->getShape().getGlobalBounds().intersects(enemy[j]->getShape().getGlobalBounds()))
+					{
+						bullets.erase(bullets.begin() + i);
+						enemy.at(j)->DamageEnemy(10);
+						break;
+					}
+				}
 			}
 		}
 	}
 	for (int i = 0; i < bullets.size(); i++)
 	{
-		bullets[i]->update();
+		bullets[i]->update(deltaTime);
 	}
 }
 
@@ -48,7 +61,7 @@ void BulletHandler::addBullet(sf::Vector2f pos, sf::Vector2f dir)
 	if (length != 0)
 		dir = sf::Vector2f(dir.x / length, dir.y / length);
 	
-	bullets.push_back(new Bullet(pos, dir));
+	bullets.push_back(new Bullet(pos, dir, 10.0f));
 }
 
 int BulletHandler::addBullet(lua_State * L)

@@ -82,7 +82,7 @@ int main()
 				window.close();
 		}
 
-		gameHandle.Update(L);
+		gameHandle.Update(L,dt.asSeconds() * 50);
 		map->update();
 
 		window.clear();

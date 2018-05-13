@@ -59,6 +59,7 @@ private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	sf::CircleShape shape;
+	sf::CircleShape cshape;
 	
 
 };

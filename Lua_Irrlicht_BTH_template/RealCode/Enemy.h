@@ -25,6 +25,8 @@ public:
 
 	sf::Vector2f getPosition() const;
 
+	sf::CircleShape getShape();
+
 	void MoveTowards(double speed, double posx1, double posy1, double posx2, double posy2);
 
 	double getLenghtTo(double posx1, double posy1, double posx2, double posy2);

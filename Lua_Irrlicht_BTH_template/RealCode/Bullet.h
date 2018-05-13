@@ -10,12 +10,14 @@ private:
 	sf::CircleShape shape;
 
 public:
-	Bullet(sf::Vector2f position = sf::Vector2f(0, 0), sf::Vector2f direction = sf::Vector2f(0, 0), float velocity = 1.0f);
+	Bullet(sf::Vector2f position = sf::Vector2f(0, 0), sf::Vector2f direction = sf::Vector2f(0, 0), float velocity = 10.0f);
 	~Bullet();
 
 	sf::Vector2f getPos() const;
 
-	void update();
+	sf::CircleShape getShape();
+
+	void update(const float deltaTime);
 	void draw(sf::RenderTarget& target, sf::RenderStates state) const;
 
 };

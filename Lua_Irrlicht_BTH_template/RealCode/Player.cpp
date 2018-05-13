@@ -5,6 +5,8 @@ Player::Player(lua_State * L, const int posX, const int posY)
 	shape.setRadius(20.0f);
 	shape.setFillColor(sf::Color::Green);
 	shape.setPosition(posX, posY);
+	shape.setOrigin(40.f / 2, 40.f / 2);
+
 
 	m_health = 100;
 	m_attack = 10;
@@ -30,6 +32,7 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 
 	target.draw(shape);
+	target.draw(cshape);
 
 }
 

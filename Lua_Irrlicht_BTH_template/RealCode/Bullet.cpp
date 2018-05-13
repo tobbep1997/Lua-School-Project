@@ -22,9 +22,14 @@ sf::Vector2f Bullet::getPos() const
 	return position;
 }
 
-void Bullet::update()
+sf::CircleShape Bullet::getShape()
 {
-	position += direction * velocity;
+	return shape;
+}
+
+void Bullet::update(const float deltaTime)
+{
+	position += direction * velocity * deltaTime;
 	this->shape.setPosition(position);
 }
 

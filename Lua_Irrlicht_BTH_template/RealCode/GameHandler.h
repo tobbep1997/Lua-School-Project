@@ -12,7 +12,7 @@ public:
 	GameHandler(lua_State * L = nullptr, sf::RenderWindow * window = nullptr);
 	~GameHandler();
 
-	void Update(lua_State* L);
+	void Update(lua_State* L, const float deltaTime);
 
 private:
 	void PushLuaFunctions(lua_State * L);

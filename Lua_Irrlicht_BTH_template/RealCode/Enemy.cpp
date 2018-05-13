@@ -8,11 +8,13 @@ Enemy::Enemy(lua_State * L,const int posX , const int posY)
 	shape.setPosition(posX, posY);
 	shape.setRadius(20.0f);
 	shape.setFillColor(sf::Color::Red);
+	shape.setOrigin(40.f / 2, 40.f / 2);
 
 	m_health = 100;
 	m_attack = 10;
 	m_position = sf::Vector2f(posX, posY);
-
+	
+	
 	pushLuaFunctions(L);
 }
 
@@ -68,6 +70,10 @@ void Enemy::Update(lua_State * L)
 	lua_setglobal(L, "LocalEnemyPosX");
 	lua_pushnumber(L, 0);
 	lua_setglobal(L, "LocalEnemyPosY");*/
+	if (m_health <= 0)
+	{
+		m_exploded = true;
+	}
 }
 
 void Enemy::DamageEnemy(int damage)
@@ -108,6 +114,11 @@ void Enemy::setExploded(bool state)
 sf::Vector2f Enemy::getPosition() const 
 {
 	return m_position;
+}
+
+sf::CircleShape Enemy::getShape()
+{
+	return shape;
 }
 
 sf::Vector2f Enemy::_normalize(sf::Vector2f pos)

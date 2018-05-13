@@ -20,11 +20,9 @@ GameHandler::~GameHandler()
 	
 }
 
-void GameHandler::Update(lua_State* L)
+void GameHandler::Update(lua_State* L, const float deltaTime)
 {
 	
-	
-
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/GameHandler.lua") ||lua_pcall(L, 0, 0, 0);
 	
@@ -78,7 +76,7 @@ void GameHandler::Update(lua_State* L)
 	else {
 		//std::cout << "Thread running" << std::endl;
 	}
-	bh.update();
+	bh.update(deltaTime,enemyList);
 }
 
 void GameHandler::PushLuaFunctions(lua_State * L)
