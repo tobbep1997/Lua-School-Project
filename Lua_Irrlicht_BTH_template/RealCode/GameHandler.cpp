@@ -1,4 +1,6 @@
 #include "GameHandler.h"
+#include <stdlib.h>
+#include <time.h>
 
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 {
@@ -13,6 +15,7 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 	bh.pushToLua(L);
 
 	m_map = map;
+	srand(time(NULL));
 }
 	
 
@@ -49,6 +52,20 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 			delete enemyList.at(i);
 			enemyList.erase(enemyList.begin() + i);
 			break;
+		}
+	}
+
+	for (size_t i = 0; i < m_map->getTiles().size(); i++)
+	{
+		for (size_t j = 0; j < enemyList.size(); j++)
+		{
+			if (m_map->getTiles().at(i)->getGlobalBounds().intersects(enemyList.at(j)->getShape().getGlobalBounds()))
+			{
+				sf::Vector2f temp = enemyList.at(j)->getPosition();
+				temp.x = rand() % 20 + temp.x - 10;
+				temp.y = rand() % 20 + temp.y - 10;
+				enemyList.at(j)->setPosition(temp);
+			}
 		}
 	}
 

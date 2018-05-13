@@ -93,6 +93,6 @@ int main()
 	}
 
 	conThread.join();
-	
+	delete map;
 	return 0;
 }

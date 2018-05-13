@@ -116,6 +116,12 @@ sf::Vector2f Enemy::getPosition() const
 	return m_position;
 }
 
+void Enemy::setPosition(sf::Vector2f pos)
+{
+	m_position = pos;
+	shape.setPosition(pos);
+}
+
 sf::CircleShape Enemy::getShape()
 {
 	return shape;

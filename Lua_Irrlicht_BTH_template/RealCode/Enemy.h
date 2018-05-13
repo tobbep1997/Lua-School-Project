@@ -24,6 +24,7 @@ public:
 	void setExploded(bool state);
 
 	sf::Vector2f getPosition() const;
+	void setPosition(sf::Vector2f pos);
 
 	sf::CircleShape getShape();
 
