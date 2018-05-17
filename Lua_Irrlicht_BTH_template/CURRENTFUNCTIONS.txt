@@ -17,3 +17,6 @@ AddBullet(posX, posY, MouseX, MouseY)	//Spawns a bullet on the player and fires 
 
 --Global Functions--
 LuaGetLenghtTo()				//Returns the lenght from pos A to pos B
+
+saveMap()
+loadMap()
