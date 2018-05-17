@@ -135,9 +135,18 @@ int Player::getPlayerPos(lua_State * L)
 {
 	Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
 	
-	lua_pushinteger(L, p->getPlayerPosition().x + p->getShape().getRadius());
-	lua_pushinteger(L, p->getPlayerPosition().y + p->getShape().getRadius());
+	lua_pushinteger(L, p->getPlayerPosition().x);// +p->getShape().getRadius());
+	lua_pushinteger(L, p->getPlayerPosition().y);// +p->getShape().getRadius());
 	return 2;	
+}
+
+int Player::getPlayerCenter(lua_State * L)
+{
+	Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+	lua_pushinteger(L, p->getPlayerPosition().x +p->getShape().getRadius());
+	lua_pushinteger(L, p->getPlayerPosition().y +p->getShape().getRadius());
+	return 2;
 }
 
 int Player::setPlayerPos(lua_State * L)
@@ -187,6 +196,10 @@ void Player::pushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Player::getPlayerPos, 1);
 	lua_setglobal(L, "PlayerGetPos");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Player::getPlayerCenter, 1);
+	lua_setglobal(L, "PlayerGetCenter");
 
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Player::setPlayerPos, 1);

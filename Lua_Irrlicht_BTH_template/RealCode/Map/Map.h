@@ -4,7 +4,10 @@
 #include <vector>
 #include <lua.hpp>
 #include "lua.hpp"
+#include <fstream>
 const unsigned int size = 32;
+
+
 
 class Map : public sf::Drawable
 {
@@ -15,7 +18,12 @@ public:
 
 	void update();
 
+	static int L_Map(lua_State * L);
+	static int S_Map(lua_State * L);
+
 	void LoadMap();
+	void SaveMap();
+	void clearMap();
 	
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

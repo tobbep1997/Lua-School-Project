@@ -13,6 +13,7 @@ Map::Map(sf::Window * Window, lua_State * L)
 
 Map::~Map()
 {
+	clearMap();
 }
 #include <iostream>
 void Map::update()
@@ -25,7 +26,8 @@ void Map::update()
 	}
 
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !pressed) {
+	//if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !pressed) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B) && !pressed) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 
 		pressed = true;
@@ -53,11 +55,13 @@ void Map::update()
 		//result = ((number + multiple / 2) / multiple) * multiple;
 	}
 
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	//if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::B))
 		pressed = false;
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	{
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed) {
+
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 
 		mousePos.x = ((mousePos.x + size / 2) / size) * size;
@@ -72,6 +76,80 @@ void Map::update()
 		}
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+		SaveMap();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+		LoadMap();
+}
+
+int Map::L_Map(lua_State * L)
+{
+	Map* m = static_cast<Map*>(lua_touserdata(L, lua_upvalueindex(1)));
+	m->LoadMap();
+	return 0;
+}
+
+int Map::S_Map(lua_State * L)
+{
+	Map* m = static_cast<Map*>(lua_touserdata(L, lua_upvalueindex(1)));
+	m->SaveMap();
+	return 0;
+}
+
+void Map::LoadMap()
+{
+	std::ifstream in;
+	in.open("Map.txt");
+	this->clearMap();
+
+	int vSize;
+	sf::Vector2i pos;
+	int r, b, g, a;
+	in >> vSize;
+	for (int i = 0; i < vSize; i++)
+	{
+		in >> pos.x;
+		in >> pos.y;
+		in >> r;
+		in >> g;
+		in >> b;
+		in >> a;
+
+		sf::RectangleShape * s = new sf::RectangleShape();
+		s->setPosition(pos.x, pos.y);
+		s->setSize(sf::Vector2f(size, size));
+		s->setFillColor(sf::Color(r,g,b,a));
+		tiles.push_back(s);
+	}
+}
+
+void Map::SaveMap()
+{
+	std::ofstream o;
+	o.open("Map.txt");
+	o << tiles.size() << std::endl;
+	for (auto & t : tiles)
+	{
+		o << t->getPosition().x << std::endl;
+		o << t->getPosition().y << std::endl;
+
+		o << static_cast<int>(t->getFillColor().r) << std::endl;
+		o << static_cast<int>(t->getFillColor().g) << std::endl;
+		o << static_cast<int>(t->getFillColor().b) << std::endl;
+		o << static_cast<int>(t->getFillColor().a) << std::endl;
+	}
+	o.close();
+
+
+}
+
+void Map::clearMap()
+{
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		delete tiles[i];
+	}
+	tiles.clear();
 }
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -117,4 +195,12 @@ void Map::pushLuaFunc()
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, Map::setColor, 1);
 	lua_setglobal(L, "setColor");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Map::L_Map, 1);
+	lua_setglobal(L, "loadMap");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Map::S_Map, 1);
+	lua_setglobal(L, "saveMap");
 }

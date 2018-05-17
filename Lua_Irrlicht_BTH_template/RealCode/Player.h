@@ -43,6 +43,7 @@ public:
 	void pushPlayerHealth(lua_State * L);
 	static int getPlayerHealth(lua_State * l);
 	static int getPlayerPos(lua_State * l);
+	static int getPlayerCenter(lua_State * l);
 
 	static int setPlayerPos(lua_State* L);
 	static int luaDamagePlayer(lua_State* L);

@@ -4,7 +4,7 @@
 
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 {
-	player = new Player(L);
+	player = new Player(L, window->getSize().x / 2 , window->getSize().y / 2);
 
 	PushLuaFunctions(L);
 

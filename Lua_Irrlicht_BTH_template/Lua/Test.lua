@@ -1,4 +1,4 @@
-speedMult = 1.1
+speedMult = 5.1
 
 if KeyBoardState == "A" then
 	PlayerMove(-1 * speedMult * DELTA_TIME, 0)
@@ -26,6 +26,8 @@ if y > SCREEN_HEIGHT then PlayerSetPos(x,0) end
 if y < 0 then PlayerSetPos(x, SCREEN_HEIGHT) end
 
 --print(MouseX, MouseY)
+
+x,y = PlayerGetCenter()
 
 if MouseX ~= -1 and MouseY ~= -1 then AddBullet(x-20,y-20,MouseX, MouseY) end
 

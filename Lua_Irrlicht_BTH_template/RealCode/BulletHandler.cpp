@@ -23,6 +23,7 @@ void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, s
 				bullets[i]->getPos().x < 0 || 
 				bullets[i]->getPos().y < 0)
 			{
+				delete bullets[i];
 				bullets.erase(bullets.begin() + i);
 				break;
 			}
@@ -32,18 +33,22 @@ void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, s
 				{
 					if (bullets[i]->getShape().getGlobalBounds().intersects(enemy[j]->getShape().getGlobalBounds()))
 					{
+						delete bullets[i];
 						bullets.erase(bullets.begin() + i);
 						enemy.at(j)->DamageEnemy(10);
 						break;
 					}
 				}
 			}
+			if (bullets.size() <= 0)
+				break;
 			for (int j = 0; j < tiles.size(); ++j)
 			{
 				if (bullets.at(i) != nullptr && tiles.at(j) != nullptr)
 				{
 					if (bullets[i]->getShape().getGlobalBounds().intersects(tiles[j]->getGlobalBounds()))
 					{
+						delete bullets[i];
 						bullets.erase(bullets.begin() + i);
 						break;
 					}
