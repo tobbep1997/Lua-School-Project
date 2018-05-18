@@ -14,6 +14,7 @@ BulletHandler::~BulletHandler()
 
 void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, std::vector<sf::RectangleShape*> tiles)
 {
+	bool breakThat = false;
 	if (windowSize != sf::Vector2u(0, 0))
 	{
 		for (int i = 0; i < bullets.size(); i++)
@@ -36,9 +37,14 @@ void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, s
 						delete bullets[i];
 						bullets.erase(bullets.begin() + i);
 						enemy.at(j)->DamageEnemy(10);
+						breakThat = true;
 						break;
 					}
 				}
+			}
+			if (breakThat == true)
+			{
+				break;
 			}
 			if (bullets.size() <= 0)
 				break;
@@ -50,9 +56,15 @@ void BulletHandler::update(const float deltaTime, std::vector<Enemy*> & enemy, s
 					{
 						delete bullets[i];
 						bullets.erase(bullets.begin() + i);
+						breakThat = true;
 						break;
+						
 					}
 				}
+			}
+			if (breakThat == true)
+			{
+				break;
 			}
 		}
 	}
