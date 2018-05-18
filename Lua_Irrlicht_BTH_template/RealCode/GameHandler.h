@@ -21,6 +21,8 @@ private:
 	static int luaAddEnemy(lua_State * L);
 	void _playerInputHandler(lua_State* L);
 
+	static int random(lua_State * L);
+
 	Player* player;
 	BulletHandler bh;
 	Enemy* enemy;

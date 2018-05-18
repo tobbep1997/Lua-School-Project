@@ -16,6 +16,7 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 
 	m_map = map;
 	srand(time(NULL));
+
 }
 	
 
@@ -30,7 +31,19 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 	m_map->update();
 	_playerInputHandler(L);
 	int error = luaL_loadfile(L, "Lua/GameHandler.lua") ||lua_pcall(L, 0, 0, 0);
-	
+	if (error)
+	{
+		std::cout << lua_tostring(L, -1) << '\n';
+		lua_pop(L, 1);
+	}
+
+	error = luaL_loadfile(L, "Lua/EnemyHandler.lua") || lua_pcall(L, 0, 0, 0);
+	if (error)
+	{
+		std::cout << lua_tostring(L, -1) << '\n';
+		lua_pop(L, 1);
+	}
+
 	for (size_t i = 0; i < enemyList.size(); i++)
 	{
 		if (enemyList.at(i)->getExploded() == false)
@@ -103,6 +116,10 @@ void GameHandler::PushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, GameHandler::luaAddEnemy, 1);
 	lua_setglobal(L, "AddEnemy");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, GameHandler::random, 1);
+	lua_setglobal(L, "Rand");
 }
 
 void GameHandler::AddingEnemy(double posX, double posY)
@@ -192,6 +209,24 @@ void GameHandler::_playerInputHandler(lua_State* L)
 		pressed = false;
 	}
 
+}
+
+int GameHandler::random(lua_State * L)
+{
+
+	if (lua_isnumber(L, -1) && lua_isnumber(L, -2))
+	{
+		//p->AddingEnemy(lua_tonumber(L, -2), lua_tonumber(L, -1));
+		int min = lua_tonumber(L, -2);
+		int max = lua_tonumber(L, -1);
+		lua_pop(L, 2);
+		lua_pushnumber(L, min + (rand() % max));
+
+		return 1;
+	}
+	else
+		std::cout << "expect Rand(int min, int max)" << std::endl;
+	return 0;
 }
 
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const

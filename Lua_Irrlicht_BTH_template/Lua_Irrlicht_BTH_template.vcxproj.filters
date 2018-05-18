@@ -68,5 +68,9 @@
     <None Include="Lua\EnemyAI.lua" />
     <None Include="Lua\GameHandler.lua" />
     <None Include="Lua\Editor.lua" />
+    <None Include="Lua\Start.lua" />
+    <None Include="Lua\EnemyHandler.lua">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

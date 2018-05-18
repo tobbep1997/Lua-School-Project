@@ -59,7 +59,12 @@ int main()
 	pushLuaMath.pushLuaFunctions(L);
 
 	
-
+	int error = luaL_loadfile(L, "Lua/Start.lua") || lua_pcall(L, 0, 0, 0);
+	if (error)
+	{
+		std::cout << lua_tostring(L, -1) << '\n';
+		lua_pop(L, 1);
+	}
 
 	std::thread conThread(ConsoleThread, L);
 	while (window.isOpen())
