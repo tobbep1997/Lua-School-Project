@@ -17,6 +17,26 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 	m_map = map;
 	srand(time(NULL));
 
+	if (!font.loadFromFile("arial.ttf"))
+	{
+		std::cout << "Font went to shitters" << std::endl;
+	}
+
+	text.setFont(font);
+	text.setFillColor(sf::Color::White);
+	text.setCharacterSize(25);
+	text.setPosition(0, window->getSize().y-30);
+
+	hpText.setFont(font);
+	hpText.setFillColor(sf::Color::White);
+	hpText.setCharacterSize(25);
+	hpText.setPosition(window->getSize().x - 95, window->getSize().y - 30);
+
+	deadText.setFont(font);
+	deadText.setFillColor(sf::Color::Red);
+	deadText.setCharacterSize(60);
+	deadText.setPosition(20, window->getSize().y /2);
+	deadText.setString("YOU DEAD");
 }
 	
 
@@ -60,14 +80,14 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 			temp.setFillColor(sf::Color(255,0,0,125));
 			temp.setRadius(20.0f);
 			temp.setPosition(enemyList.at(i)->getPosition());
-			deadEnemys.push_back(temp);
+			//deadEnemys.push_back(temp);
 
 			delete enemyList.at(i);
 			enemyList.erase(enemyList.begin() + i);
 			break;
 		}
 	}
-
+	//text.setString(std::to_string(enemyList.size()));
 	for (size_t i = 0; i < m_map->getTiles().size(); i++)
 	{
 		for (size_t j = 0; j < enemyList.size(); j++)
@@ -109,7 +129,22 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 		//std::cout << "Thread running" << std::endl;
 	}
 	bh.update(deltaTime,enemyList, m_map->getTiles());
+
+	if (player->getHealth() <= 0)
+	{
+		if (!firstTime)
+		{
+			keepAlive = false;
+		}
+		firstTime = false;
+	}
 }
+
+bool GameHandler::getAlive()
+{
+	return keepAlive;
+}
+
 
 void GameHandler::PushLuaFunctions(lua_State * L)
 {
@@ -120,6 +155,10 @@ void GameHandler::PushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, GameHandler::random, 1);
 	lua_setglobal(L, "Rand");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, GameHandler::luaSetTextBullet, 1);
+	lua_setglobal(L, "SetBulletText");
 }
 
 void GameHandler::AddingEnemy(double posX, double posY)
@@ -142,6 +181,29 @@ int GameHandler::luaAddEnemy(lua_State * L)
 		std::cout << "Error: Expected EnemyAddingEnemy(double, double)" << std::endl;
 	}
 	return 0;
+}
+
+int GameHandler::luaSetTextBullet(lua_State * L)
+{
+	if (lua_isnumber(L, -1) && lua_isnumber(L, -2))
+	{
+		GameHandler* p = static_cast<GameHandler*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->SetBulletText(lua_tonumber(L, -2), lua_tonumber(L, -1));
+		lua_pop(L, 2);
+
+		return 0;
+	}
+	else
+	{
+		std::cout << "Error: Expected SetBulletText(double)" << std::endl;
+	}
+	return 0;
+}
+
+void GameHandler::SetBulletText(int bullets, int hp)
+{
+	text.setString(std::to_string(bullets) + "/30");
+	hpText.setString("HP: " + std::to_string(hp));
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
@@ -170,6 +232,16 @@ void GameHandler::_playerInputHandler(lua_State* L)
 	{
 		lua_pushstring(L, "FUCK");
 		lua_setglobal(L, "KeyBoardState");
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		lua_pushstring(L, "R");
+		lua_setglobal(L, "KeyBoardStateReload");
+	}
+	else
+	{
+		lua_pushstring(L, "FUCK");
+		lua_setglobal(L, "KeyBoardStateReload");
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -229,15 +301,26 @@ int GameHandler::random(lua_State * L)
 	return 0;
 }
 
+
+
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	target.draw(*m_map);
-	target.draw(*player);
-	for (auto e : enemyList)
-		target.draw(*e);
-	
-	bh.draw(target, states);
+	if (player->getHealth() >= 0) {
+		target.draw(*m_map);
+		target.draw(*player);
+		for (auto e : enemyList)
+			target.draw(*e);
 
+		bh.draw(target, states);
+		target.draw(text);
+		target.draw(hpText);
+	}else
+	{
+		if (!keepAlive)
+		{
+			target.draw(deadText);
+		}
+	}
 }
 
 void GameHandler::_enemyFade()

@@ -12,10 +12,15 @@ end
 if KeyBoardState == "S" then
 	PlayerMove(0,1* speedMult * DELTA_TIME)
 end 
+if KeyBoardStateReload == "R" then
+	bullet = 0
+end
 
 
 
 PlayerHealth = PlayerGetHealth()
+
+SetBulletText(bullet, PlayerHealth)
 
 x ,y = PlayerGetPos()
 
@@ -29,5 +34,10 @@ if y < 0 then PlayerSetPos(x, SCREEN_HEIGHT) end
 
 x,y = PlayerGetCenter()
 
-if MouseX ~= -1 and MouseY ~= -1 then AddBullet(x-20,y-20,MouseX, MouseY) end
+if MouseX ~= -1 and MouseY ~= -1 then
+	if bullet < 30 then
+		AddBullet(x-20,y-20,MouseX, MouseY)
+		bullet = bullet + 1
+	end
+end
 

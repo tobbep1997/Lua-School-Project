@@ -11,7 +11,7 @@
 #include <thread>
 #include "lua.hpp"
 //#include <irrlicht.h>
-#include <SFML/Graphics.hpp>	
+#include <SFML/Graphics.hpp>
 #include "RealCode/Player.h"
 #include "RealCode/Enemy.h"
 #include "RealCode/GameHandler.h"
@@ -41,7 +41,7 @@ sf::Time dt;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+	using namespace std::chrono_literals;
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
@@ -59,6 +59,7 @@ int main()
 	pushLuaMath.pushLuaFunctions(L);
 
 	
+
 	int error = luaL_loadfile(L, "Lua/Start.lua") || lua_pcall(L, 0, 0, 0);
 	if (error)
 	{
@@ -67,7 +68,8 @@ int main()
 	}
 
 	std::thread conThread(ConsoleThread, L);
-	while (window.isOpen())
+	bool keepAlive = true;
+	while (window.isOpen() && keepAlive)
 	{
 		dt = deltaClock.restart();
 		lua_pushnumber(L, dt.asSeconds() * 50);
@@ -93,8 +95,8 @@ int main()
 		window.clear();
 		window.draw(gameHandle);
 		
-		
 		window.display();
+		
 	}
 
 	conThread.join();

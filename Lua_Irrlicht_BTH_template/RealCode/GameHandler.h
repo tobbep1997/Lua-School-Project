@@ -14,6 +14,8 @@ public:
 
 	void Update(lua_State* L, const float deltaTime);
 
+	bool getAlive();
+
 private:
 	void PushLuaFunctions(lua_State * L);
 
@@ -22,6 +24,9 @@ private:
 	void _playerInputHandler(lua_State* L);
 
 	static int random(lua_State * L);
+
+	static int luaSetTextBullet(lua_State * L);
+	void SetBulletText(int bullets, int hp);
 
 	Player* player;
 	BulletHandler bh;
@@ -44,4 +49,12 @@ private:
 	std::vector<sf::CircleShape> deadEnemys;
 
 	bool pressed = false;
+
+	bool keepAlive = true;
+	bool firstTime = true;
+
+	sf::Font font;
+	sf::Text text;
+	sf::Text hpText;
+	sf::Text deadText;
 };
