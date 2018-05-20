@@ -204,7 +204,7 @@ int GameHandler::luaSetTextBullet(lua_State * L)
 
 void GameHandler::SetBulletText(int bullets, int hp)
 {
-	text.setString(std::to_string(bullets) + "/30");
+	text.setString(std::to_string(bullets) + "/60");
 	hpText.setString("HP: " + std::to_string(hp));
 }
 
