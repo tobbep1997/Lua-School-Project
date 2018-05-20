@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 {
@@ -44,13 +44,28 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 	scoreText.setFillColor(sf::Color::White);
 	scoreText.setCharacterSize(25);
 	scoreText.setString("Score: " + std::to_string(score));
+
+	highScoreText.setFont(font);
+	highScoreText.setFillColor(sf::Color::Red);
+	highScoreText.setCharacterSize(25);
+	highScoreText.setPosition(20, window->getSize().y / 6);
+	
 }
 	
 
 GameHandler::~GameHandler()
 {
 	delete player;
-	
+	delete enemy;
+	//delete m_map;
+	for (size_t i = 0; i < enemyList.size(); i++)
+	{
+		if (enemyList.at(i))
+		{
+			delete enemyList.at(i);
+		}
+	}
+	enemyList.clear();
 }
 
 void GameHandler::Update(lua_State* L, const float deltaTime)
@@ -94,7 +109,7 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 			break;
 		}
 	}
-	//text.setString(std::to_string(enemyList.size()));
+	
 	for (size_t i = 0; i < m_map->getTiles().size(); i++)
 	{
 		for (size_t j = 0; j < enemyList.size(); j++)
@@ -142,7 +157,17 @@ void GameHandler::Update(lua_State* L, const float deltaTime)
 		if (!firstTime)
 		{
 			keepAlive = false;
+			if (highScore < score)
+			{
+				std::ofstream file;
+				file.open("Highscore.txt");
+				file << score;
+				file.close();
+				highScore = score;
+				
+			}
 		}
+		highScoreText.setString("Highscore: " + std::to_string(highScore) + "\nYour Score: " + std::to_string(score));
 		firstTime = false;
 	}
 }
@@ -152,6 +177,10 @@ bool GameHandler::getAlive()
 	return keepAlive;
 }
 
+void GameHandler::setHighScore(int highScore)
+{
+	this->highScore = highScore;
+}
 
 void GameHandler::PushLuaFunctions(lua_State * L)
 {
@@ -347,6 +376,9 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 				target.draw(*e);
 
 			bh.draw(target, states);
+
+
+			//TextDraw
 			target.draw(text);
 			target.draw(hpText);
 			target.draw(scoreText);
@@ -356,6 +388,7 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 			if (!keepAlive)
 			{
 				target.draw(deadText);
+				target.draw(highScoreText);
 			}
 		}
 	}
@@ -367,6 +400,8 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 			target.draw(*e);
 
 		bh.draw(target, states);
+
+		//TextDraw
 		target.draw(text);
 		target.draw(hpText);
 		target.draw(scoreText);
@@ -376,7 +411,7 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 void GameHandler::_enemyFade()
 {
 	using namespace std::chrono_literals;
-	for (size_t i = 0; i < deadEnemys.size(); i++)
+	/*for (size_t i = 0; i < deadEnemys.size(); i++)
 	{
 		if (deadEnemys.at(i).getFillColor().a > 10)
 		{
@@ -390,5 +425,5 @@ void GameHandler::_enemyFade()
 			deadEnemys.erase(deadEnemys.begin() + i);
 			break;
 		}
-	}
+	}*/
 }

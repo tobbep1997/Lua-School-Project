@@ -16,6 +16,8 @@ public:
 
 	bool getAlive();
 
+	void setHighScore(int highScore);
+
 private:
 	void PushLuaFunctions(lua_State * L);
 
@@ -52,6 +54,7 @@ private:
 	std::vector<sf::CircleShape> deadEnemys;
 
 	int score = 0;
+	int highScore = 0;
 
 	bool pressed = false;
 
@@ -63,4 +66,5 @@ private:
 	sf::Text hpText;
 	sf::Text scoreText;
 	sf::Text deadText;
+	sf::Text highScoreText;
 };

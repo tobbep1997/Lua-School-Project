@@ -22,8 +22,9 @@ void ConsoleThread(lua_State* L) {
 	while(GetConsoleWindow()) {
 		memset(command, 0, 1000);
 		std::cin.getline(command, 1000);
-		if( luaL_loadstring(L, command) || lua_pcall(L, 0, 0, 0) )
+		if (luaL_loadstring(L, command) || lua_pcall(L, 0, 0, 0)) {
 			std::cout << lua_tostring(L, -1) << '\n';
+		}
 	}
 }
 
@@ -44,7 +45,7 @@ int main()
 	using namespace std::chrono_literals;
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
-
+	
 	sf::RenderWindow window(sf::VideoMode(screenWidht, screenHight), "SFML works!");
 	Map * map = new Map(&window, L);
 	GameHandler gameHandle(L, &window, map);
@@ -58,8 +59,13 @@ int main()
 	LuaMath::Math pushLuaMath;
 	pushLuaMath.pushLuaFunctions(L);
 
-	
+	int highScore = 0;
+	std::ifstream file;
+	file.open("Highscore.txt");
+	file >> highScore;
+	file.close();
 
+	gameHandle.setHighScore(highScore);
 	int error = luaL_loadfile(L, "Lua/Start.lua") || lua_pcall(L, 0, 0, 0);
 	if (error)
 	{
@@ -98,8 +104,9 @@ int main()
 		window.display();
 		
 	}
-
-	conThread.join();
 	delete map;
+	//delete L;
+	conThread.join();
+
 	return 0;
 }
