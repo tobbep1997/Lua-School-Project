@@ -42,6 +42,8 @@ public:
 
 	static int luaGetExploded(lua_State * L);
 	static int luaSetExploded(lua_State * L);
+
+	static int luaGetHealth(lua_State * L);
 	
 
 private:

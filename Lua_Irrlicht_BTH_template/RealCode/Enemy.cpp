@@ -58,6 +58,10 @@ void Enemy::Update(lua_State * L)
 	lua_pushcclosure(L, Enemy::luaSetExploded, 1);
 	lua_setglobal(L, "EnemySetExploded");
 
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, Enemy::luaGetHealth, 1);
+	lua_setglobal(L, "EnemyGetHealth");
+
 	int error =  luaL_loadfile(L, "Lua/EnemyAI.lua") || lua_pcall(L, 0, 0, 0);
 	
 	if (error)
@@ -70,10 +74,10 @@ void Enemy::Update(lua_State * L)
 	lua_setglobal(L, "LocalEnemyPosX");
 	lua_pushnumber(L, 0);
 	lua_setglobal(L, "LocalEnemyPosY");*/
-	if (m_health <= 0)
+	/*if (m_health <= 0)
 	{
 		m_exploded = true;
-	}
+	}*/
 }
 
 void Enemy::DamageEnemy(int damage)
@@ -241,6 +245,13 @@ int Enemy::luaSetExploded(lua_State * L)
 		std::cout << "Error: Expected EnemySetExplode(bool)" << std::endl;
 	}
 	return 0;
+}
+
+int Enemy::luaGetHealth(lua_State * L)
+{
+	Enemy* p = static_cast<Enemy*>(lua_touserdata(L, lua_upvalueindex(1)));
+	lua_pushinteger(L, p->getHealth());
+	return 1;
 }
 
 void Enemy::draw(sf::RenderTarget & target, sf::RenderStates states) const

@@ -28,6 +28,9 @@ private:
 	static int luaSetTextBullet(lua_State * L);
 	void SetBulletText(int bullets, int hp);
 
+	static int luaSetTextScore(lua_State * L);
+	void SetScoreText(int amount);
+
 	Player* player;
 	BulletHandler bh;
 	Enemy* enemy;
@@ -48,6 +51,8 @@ private:
 	std::vector<Enemy*> enemyList;
 	std::vector<sf::CircleShape> deadEnemys;
 
+	int score = 0;
+
 	bool pressed = false;
 
 	bool keepAlive = true;
@@ -56,5 +61,6 @@ private:
 	sf::Font font;
 	sf::Text text;
 	sf::Text hpText;
+	sf::Text scoreText;
 	sf::Text deadText;
 };

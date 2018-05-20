@@ -39,6 +39,11 @@ GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 	deadText.setCharacterSize(60);
 	deadText.setPosition(20, window->getSize().y /2);
 	deadText.setString("YOU DEAD");
+
+	scoreText.setFont(font);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setCharacterSize(25);
+	scoreText.setString("Score: " + std::to_string(score));
 }
 	
 
@@ -161,6 +166,10 @@ void GameHandler::PushLuaFunctions(lua_State * L)
 	lua_pushlightuserdata(L, this);
 	lua_pushcclosure(L, GameHandler::luaSetTextBullet, 1);
 	lua_setglobal(L, "SetBulletText");
+
+	lua_pushlightuserdata(L, this);
+	lua_pushcclosure(L, GameHandler::luaSetTextScore, 1);
+	lua_setglobal(L, "SetScoreText");
 }
 
 void GameHandler::AddingEnemy(double posX, double posY)
@@ -206,6 +215,29 @@ void GameHandler::SetBulletText(int bullets, int hp)
 {
 	text.setString(std::to_string(bullets) + "/60");
 	hpText.setString("HP: " + std::to_string(hp));
+}
+
+int GameHandler::luaSetTextScore(lua_State * L)
+{
+	if (lua_isnumber(L, -1))
+	{
+		GameHandler* p = static_cast<GameHandler*>(lua_touserdata(L, lua_upvalueindex(1)));
+		p->SetScoreText(lua_tonumber(L, -1));
+		lua_pop(L, 1);
+
+		return 0;
+	}
+	else
+	{
+		std::cout << "Error: Expected SetSCoreText(double)" << std::endl;
+	}
+	return 0;
+}
+
+void GameHandler::SetScoreText(int amount)
+{
+	score += amount;
+	scoreText.setString("Score: " + std::to_string(score));
 }
 
 void GameHandler::_playerInputHandler(lua_State* L)
@@ -317,6 +349,7 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 			bh.draw(target, states);
 			target.draw(text);
 			target.draw(hpText);
+			target.draw(scoreText);
 		}
 		else
 		{
@@ -336,7 +369,7 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 		bh.draw(target, states);
 		target.draw(text);
 		target.draw(hpText);
-		
+		target.draw(scoreText);
 	}
 }
 
