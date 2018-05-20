@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define DEBUG 1
+
 GameHandler::GameHandler(lua_State* L, sf::RenderWindow* window, Map * map)
 {
 	player = new Player(L, window->getSize().x / 2 , window->getSize().y / 2);
@@ -305,7 +307,27 @@ int GameHandler::random(lua_State * L)
 
 void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	if (player->getHealth() >= 0) {
+	if (DEBUG == 0) {
+		if (player->getHealth() >= 0) {
+			target.draw(*m_map);
+			target.draw(*player);
+			for (auto e : enemyList)
+				target.draw(*e);
+
+			bh.draw(target, states);
+			target.draw(text);
+			target.draw(hpText);
+		}
+		else
+		{
+			if (!keepAlive)
+			{
+				target.draw(deadText);
+			}
+		}
+	}
+	else {
+		
 		target.draw(*m_map);
 		target.draw(*player);
 		for (auto e : enemyList)
@@ -314,12 +336,7 @@ void GameHandler::draw(sf::RenderTarget & target, sf::RenderStates states) const
 		bh.draw(target, states);
 		target.draw(text);
 		target.draw(hpText);
-	}else
-	{
-		if (!keepAlive)
-		{
-			target.draw(deadText);
-		}
+		
 	}
 }
 

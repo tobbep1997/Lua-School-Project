@@ -16,7 +16,7 @@ if KeyBoardStateReload == "R" then
 	bullet = 0
 end
 
-
+shootDelta = shootDelta + DELTA_TIME
 
 PlayerHealth = PlayerGetHealth()
 
@@ -35,9 +35,12 @@ if y < 0 then PlayerSetPos(x, SCREEN_HEIGHT) end
 x,y = PlayerGetCenter()
 
 if MouseX ~= -1 and MouseY ~= -1 then
-	if bullet < 30 then
-		AddBullet(x-20,y-20,MouseX, MouseY)
-		bullet = bullet + 1
+	if shootDelta >= 0.6 then
+		if bullet < 60 then
+			AddBullet(x-20,y-20,MouseX, MouseY)
+			bullet = bullet + 1
+		end
+		shootDelta = 0
 	end
 end
 
