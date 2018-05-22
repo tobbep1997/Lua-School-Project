@@ -72,7 +72,14 @@ int main()
 		std::cout << lua_tostring(L, -1) << '\n';
 		lua_pop(L, 1);
 	}
+	error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
+	if (error)
+	{
+		std::cout << lua_tostring(L, -1) << '\n';
+		lua_pop(L, 1);
+	}
 
+	luaL_dofile(L, "Lua/Test.lua");
 	std::thread conThread(ConsoleThread, L);
 	bool keepAlive = true;
 	while (window.isOpen() && keepAlive)
@@ -80,13 +87,11 @@ int main()
 		dt = deltaClock.restart();
 		lua_pushnumber(L, dt.asSeconds() * 50);
 		lua_setglobal(L, "DELTA_TIME");
-		int error = luaL_loadfile(L, "Lua/Test.lua") || lua_pcall(L, 0, 0, 0);
-		if (error)
-		{
-			std::cout << lua_tostring(L, -1) << '\n';
-			lua_pop(L, 1);
-		}
-	
+
+		
+		lua_getglobal(L, "update");
+		lua_pushnumber(L, dt.asSeconds());
+		lua_call(L, 1, 0);
 
 		sf::Event event;
 		while (window.pollEvent(event))
