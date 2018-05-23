@@ -238,6 +238,7 @@ int Enemy::luaSetExploded(lua_State * L)
 	{
 		Enemy* p = static_cast<Enemy*>(lua_touserdata(L, lua_upvalueindex(1)));
 		p->setExploded(lua_toboolean(L, -1));
+		lua_pop(L, 1);
 		return 0;
 	}
 	else

@@ -1,6 +1,6 @@
-speedMult = 5.1
 
 function update (deltaTime)
+speedMult = 5.1
 	--Function for keyboard
 	KeyBoardCheck()
 

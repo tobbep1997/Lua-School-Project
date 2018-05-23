@@ -96,6 +96,7 @@ int Player::move(lua_State * L)
 	{
 		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
 		p->move(lua_tonumber(L, -2), lua_tonumber(L, -1));
+		lua_pop(L, 2);
 	}
 	else
 	{
@@ -111,6 +112,7 @@ int Player::setHealth(lua_State * L)
 	{
 		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
 		p->setHealth(lua_tointeger(L, -1));
+		lua_pop(L, 1);
 	}
 	else
 	{
@@ -170,7 +172,7 @@ int Player::luaDamagePlayer(lua_State * L)
 	{
 		Player* p = static_cast<Player*>(lua_touserdata(L, lua_upvalueindex(1)));
 		p->DamagePlayer(lua_tonumber(L, -1));
-		lua_pop(L, 2);
+		lua_pop(L, 1);
 	}
 	else
 	{
